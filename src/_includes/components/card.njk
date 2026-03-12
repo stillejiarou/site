@@ -1,31 +1,25 @@
-{% set finalUrl = cardUrl == '/devlog' ? '/code/devlog' : cardUrl %}
-
+{% set finalUrl = cardUrl %}
+{% if cardUrl == '/devlog' %}
+  {% set finalUrl = '/code/devlog' %}
+{% endif %}
 <article class="h-entry clickable" data-url="{{ finalUrl }}">
-
   <header>
     <h2 class="p-name">
       <a class="u-url u-uid" href="{{ finalUrl }}">
         {{ cardTitle }}
       </a>
     </h2>
-
     <p class="main-meta">
       {{ cardReadingTime }}
     </p>
-
     <p class="sub-meta">
       <time class="dt-published" datetime="{{ cardDate | htmlDateString }}">
         {{ cardDate | readableDate }}
       </time>
-      
-      <span class="p-author h-card">
-        <a class="u-url p-name" href="/">Stille Jia-Rou</a>
-      </span>
+      <a class="p-author h-card" href="/">Stille Jia-Rou</a>
     </p>
   </header>
-
   {% if cardSummary %}
     <p class="p-summary">{{ cardSummary }}</p>
   {% endif %}
-
 </article>

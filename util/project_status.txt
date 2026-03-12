@@ -1,0 +1,3231 @@
+
+
+----- FILE: ..\site\.eleventy.js -----
+
+const rssPlugin = require("@11ty/eleventy-plugin-rss");
+const sitemap = require("@quasibit/eleventy-plugin-sitemap");
+
+module.exports = function (eleventyConfig) {
+
+  eleventyConfig.addPlugin(rssPlugin);
+
+  eleventyConfig.addPlugin(sitemap, {
+    sitemap: {
+      hostname: "https://stillejiarou.neocities.org"
+    }
+  });
+
+  eleventyConfig.addPassthroughCopy("img");
+  eleventyConfig.addPassthroughCopy("style.css");
+  eleventyConfig.addPassthroughCopy("script.js");
+
+  eleventyConfig.addFilter("readingTime", function (content) {
+    if (!content) return "";
+    const text = content.replace(/<[^>]*>/g, "");
+    const words = text.trim().split(/\s+/).length;
+    const minutes = Math.max(1, Math.ceil(words / 200));
+    return `${minutes} min read`;
+  });
+
+  eleventyConfig.addFilter("htmlDateString", (dateObj) => {
+    return dateObj.toISOString().split("T")[0];
+  });
+
+  eleventyConfig.addFilter("readableDate", (dateObj) => {
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+
+    return `${year}.${month}.${day}`;
+  });
+
+  return {
+    markdownTemplateEngine: "njk",
+    htmlTemplateEngine: "njk",
+    dataTemplateEngine: "njk",
+    dir: {
+      input: "src",
+      output: "_site",
+      includes: "_includes"
+    }
+  };
+};
+
+// npx @11ty/eleventy --serve
+
+----- FILE: ..\site\.gitignore -----
+
+/node_modules
+__pycache__
+
+----- FILE: ..\site\package-lock.json -----
+
+{
+  "name": "site",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "site",
+      "version": "1.0.0",
+      "license": "ISC",
+      "dependencies": {
+        "@11ty/eleventy-plugin-rss": "^2.0.4",
+        "@quasibit/eleventy-plugin-sitemap": "^2.2.0"
+      },
+      "devDependencies": {
+        "@11ty/eleventy": "^3.1.2"
+      }
+    },
+    "node_modules/@11ty/dependency-tree": {
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/@11ty/dependency-tree/-/dependency-tree-4.0.2.tgz",
+      "integrity": "sha512-RTF6VTZHatYf7fSZBUN3RKwiUeJh5dhWV61gDPrHhQF2/gzruAkYz8yXuvGLx3w3ZBKreGrR+MfYpSVkdbdbLA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@11ty/eleventy-utils": "^2.0.1"
+      }
+    },
+    "node_modules/@11ty/dependency-tree-esm": {
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/@11ty/dependency-tree-esm/-/dependency-tree-esm-2.0.4.tgz",
+      "integrity": "sha512-MYKC0Ac77ILr1HnRJalzKDlb9Z8To3kXQCltx299pUXXUFtJ1RIONtULlknknqW8cLe19DLVgmxVCtjEFm7h0A==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@11ty/eleventy-utils": "^2.0.7",
+        "acorn": "^8.15.0",
+        "dependency-graph": "^1.0.0",
+        "normalize-path": "^3.0.0"
+      }
+    },
+    "node_modules/@11ty/eleventy": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/@11ty/eleventy/-/eleventy-3.1.2.tgz",
+      "integrity": "sha512-IcsDlbXnBf8cHzbM1YBv3JcTyLB35EK88QexmVyFdVJVgUU6bh9g687rpxryJirHzo06PuwnYaEEdVZQfIgRGg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@11ty/dependency-tree": "^4.0.0",
+        "@11ty/dependency-tree-esm": "^2.0.0",
+        "@11ty/eleventy-dev-server": "^2.0.8",
+        "@11ty/eleventy-plugin-bundle": "^3.0.6",
+        "@11ty/eleventy-utils": "^2.0.7",
+        "@11ty/lodash-custom": "^4.17.21",
+        "@11ty/posthtml-urls": "^1.0.1",
+        "@11ty/recursive-copy": "^4.0.2",
+        "@sindresorhus/slugify": "^2.2.1",
+        "bcp-47-normalize": "^2.3.0",
+        "chokidar": "^3.6.0",
+        "debug": "^4.4.1",
+        "dependency-graph": "^1.0.0",
+        "entities": "^6.0.1",
+        "filesize": "^10.1.6",
+        "gray-matter": "^4.0.3",
+        "iso-639-1": "^3.1.5",
+        "js-yaml": "^4.1.0",
+        "kleur": "^4.1.5",
+        "liquidjs": "^10.21.1",
+        "luxon": "^3.6.1",
+        "markdown-it": "^14.1.0",
+        "minimist": "^1.2.8",
+        "moo": "^0.5.2",
+        "node-retrieve-globals": "^6.0.1",
+        "nunjucks": "^3.2.4",
+        "picomatch": "^4.0.2",
+        "please-upgrade-node": "^3.2.0",
+        "posthtml": "^0.16.6",
+        "posthtml-match-helper": "^2.0.3",
+        "semver": "^7.7.2",
+        "slugify": "^1.6.6",
+        "tinyglobby": "^0.2.14"
+      },
+      "bin": {
+        "eleventy": "cmd.cjs"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/11ty"
+      }
+    },
+    "node_modules/@11ty/eleventy-dev-server": {
+      "version": "2.0.8",
+      "resolved": "https://registry.npmjs.org/@11ty/eleventy-dev-server/-/eleventy-dev-server-2.0.8.tgz",
+      "integrity": "sha512-15oC5M1DQlCaOMUq4limKRYmWiGecDaGwryr7fTE/oM9Ix8siqMvWi+I8VjsfrGr+iViDvWcH/TVI6D12d93mA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@11ty/eleventy-utils": "^2.0.1",
+        "chokidar": "^3.6.0",
+        "debug": "^4.4.0",
+        "finalhandler": "^1.3.1",
+        "mime": "^3.0.0",
+        "minimist": "^1.2.8",
+        "morphdom": "^2.7.4",
+        "please-upgrade-node": "^3.2.0",
+        "send": "^1.1.0",
+        "ssri": "^11.0.0",
+        "urlpattern-polyfill": "^10.0.0",
+        "ws": "^8.18.1"
+      },
+      "bin": {
+        "eleventy-dev-server": "cmd.js"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/11ty"
+      }
+    },
+    "node_modules/@11ty/eleventy-plugin-bundle": {
+      "version": "3.0.7",
+      "resolved": "https://registry.npmjs.org/@11ty/eleventy-plugin-bundle/-/eleventy-plugin-bundle-3.0.7.tgz",
+      "integrity": "sha512-QK1tRFBhQdZASnYU8GMzpTdsMMFLVAkuU0gVVILqNyp09xJJZb81kAS3AFrNrwBCsgLxTdWHJ8N64+OTTsoKkA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@11ty/eleventy-utils": "^2.0.2",
+        "debug": "^4.4.0",
+        "posthtml-match-helper": "^2.0.3"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/11ty"
+      }
+    },
+    "node_modules/@11ty/eleventy-plugin-rss": {
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/@11ty/eleventy-plugin-rss/-/eleventy-plugin-rss-2.0.4.tgz",
+      "integrity": "sha512-LF60sGVlxGTryQe3hTifuzrwF8R7XbrNsM2xfcDcNMSliLN4kmB+7zvoLRySRx0AQDjqhPTAeeeT0ra6/9zHUQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@11ty/eleventy-utils": "^2.0.0",
+        "@11ty/posthtml-urls": "^1.0.1",
+        "debug": "^4.4.0",
+        "posthtml": "^0.16.6"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/11ty"
+      }
+    },
+    "node_modules/@11ty/eleventy-utils": {
+      "version": "2.0.7",
+      "resolved": "https://registry.npmjs.org/@11ty/eleventy-utils/-/eleventy-utils-2.0.7.tgz",
+      "integrity": "sha512-6QE+duqSQ0GY9rENXYb4iPR4AYGdrFpqnmi59tFp9VrleOl0QSh8VlBr2yd6dlhkdtj7904poZW5PvGr9cMiJQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/11ty"
+      }
+    },
+    "node_modules/@11ty/lodash-custom": {
+      "version": "4.17.21",
+      "resolved": "https://registry.npmjs.org/@11ty/lodash-custom/-/lodash-custom-4.17.21.tgz",
+      "integrity": "sha512-Mqt6im1xpb1Ykn3nbcCovWXK3ggywRJa+IXIdoz4wIIK+cvozADH63lexcuPpGS/gJ6/m2JxyyXDyupkMr5DHw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=14"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/11ty"
+      }
+    },
+    "node_modules/@11ty/posthtml-urls": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/@11ty/posthtml-urls/-/posthtml-urls-1.0.2.tgz",
+      "integrity": "sha512-0vaV3Wt0surZ+oS1VdKKe0axeeupuM+l7W/Z866WFQwF+dGg2Tc/nmhk/5l74/Y55P8KyImnLN9CdygNw2huHg==",
+      "license": "MIT",
+      "dependencies": {
+        "evaluate-value": "^2.0.0",
+        "http-equiv-refresh": "^2.0.1",
+        "list-to-array": "^1.1.0",
+        "parse-srcset": "^1.0.2"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/@11ty/recursive-copy": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/@11ty/recursive-copy/-/recursive-copy-4.0.3.tgz",
+      "integrity": "sha512-SX48BTLEGX8T/OsKWORsHAAeiDsbFl79Oa/0Wg/mv/d27b7trCVZs7fMHvpSgDvZz/fZqx5rDk8+nx5oyT7xBw==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "errno": "^1.0.0",
+        "junk": "^3.1.0",
+        "maximatch": "^0.1.0",
+        "slash": "^3.0.0"
+      },
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@quasibit/eleventy-plugin-sitemap": {
+      "version": "2.2.0",
+      "resolved": "https://registry.npmjs.org/@quasibit/eleventy-plugin-sitemap/-/eleventy-plugin-sitemap-2.2.0.tgz",
+      "integrity": "sha512-7YoU4jjipLjifBhZwttLWbAAkImmBfeMQ0+1ST6mJO45z2mFLHZcgnfHwGF2joNk74wiYNsNOB1ennouzQFZIQ==",
+      "license": "MIT",
+      "dependencies": {
+        "array-flat-polyfill": "^1.0.1",
+        "sitemap": "^6.3.2"
+      },
+      "engines": {
+        "node": ">=10.0.0"
+      }
+    },
+    "node_modules/@sindresorhus/slugify": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/@sindresorhus/slugify/-/slugify-2.2.1.tgz",
+      "integrity": "sha512-MkngSCRZ8JdSOCHRaYd+D01XhvU3Hjy6MGl06zhOk614hp9EOAp5gIkBeQg7wtmxpitU6eAL4kdiRMcJa2dlrw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@sindresorhus/transliterate": "^1.0.0",
+        "escape-string-regexp": "^5.0.0"
+      },
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/@sindresorhus/transliterate": {
+      "version": "1.6.0",
+      "resolved": "https://registry.npmjs.org/@sindresorhus/transliterate/-/transliterate-1.6.0.tgz",
+      "integrity": "sha512-doH1gimEu3A46VX6aVxpHTeHrytJAG6HgdxntYnCFiIFHEM/ZGpG8KiZGBChchjQmG0XFIBL552kBTjVcMZXwQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "escape-string-regexp": "^5.0.0"
+      },
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/@types/node": {
+      "version": "14.18.63",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.18.63.tgz",
+      "integrity": "sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==",
+      "license": "MIT"
+    },
+    "node_modules/@types/sax": {
+      "version": "1.2.7",
+      "resolved": "https://registry.npmjs.org/@types/sax/-/sax-1.2.7.tgz",
+      "integrity": "sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/node": "*"
+      }
+    },
+    "node_modules/a-sync-waterfall": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/a-sync-waterfall/-/a-sync-waterfall-1.0.1.tgz",
+      "integrity": "sha512-RYTOHHdWipFUliRFMCS4X2Yn2X8M87V/OpSqWzKKOGhzqyUxzyVmhHDH9sAvG+ZuQf/TAOFsLCpMw09I1ufUnA==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/acorn": {
+      "version": "8.16.0",
+      "resolved": "https://registry.npmjs.org/acorn/-/acorn-8.16.0.tgz",
+      "integrity": "sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==",
+      "dev": true,
+      "license": "MIT",
+      "bin": {
+        "acorn": "bin/acorn"
+      },
+      "engines": {
+        "node": ">=0.4.0"
+      }
+    },
+    "node_modules/acorn-walk": {
+      "version": "8.3.5",
+      "resolved": "https://registry.npmjs.org/acorn-walk/-/acorn-walk-8.3.5.tgz",
+      "integrity": "sha512-HEHNfbars9v4pgpW6SO1KSPkfoS0xVOM/9UzkJltjlsHZmJasxg8aXkuZa7SMf8vKGIBhpUsPluQSqhJFCqebw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "acorn": "^8.11.0"
+      },
+      "engines": {
+        "node": ">=0.4.0"
+      }
+    },
+    "node_modules/anymatch": {
+      "version": "3.1.3",
+      "resolved": "https://registry.npmjs.org/anymatch/-/anymatch-3.1.3.tgz",
+      "integrity": "sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "normalize-path": "^3.0.0",
+        "picomatch": "^2.0.4"
+      },
+      "engines": {
+        "node": ">= 8"
+      }
+    },
+    "node_modules/anymatch/node_modules/picomatch": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz",
+      "integrity": "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/arg": {
+      "version": "5.0.2",
+      "resolved": "https://registry.npmjs.org/arg/-/arg-5.0.2.tgz",
+      "integrity": "sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==",
+      "license": "MIT"
+    },
+    "node_modules/argparse": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz",
+      "integrity": "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==",
+      "dev": true,
+      "license": "Python-2.0"
+    },
+    "node_modules/array-differ": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/array-differ/-/array-differ-1.0.0.tgz",
+      "integrity": "sha512-LeZY+DZDRnvP7eMuQ6LHfCzUGxAAIViUBliK24P3hWXL6y4SortgR6Nim6xrkfSLlmH0+k+9NYNwVC2s53ZrYQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/array-flat-polyfill": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/array-flat-polyfill/-/array-flat-polyfill-1.0.1.tgz",
+      "integrity": "sha512-hfJmKupmQN0lwi0xG6FQ5U8Rd97RnIERplymOv/qpq8AoNKPPAnxJadjFA23FNWm88wykh9HmpLJUUwUtNU/iw==",
+      "license": "CC0-1.0",
+      "engines": {
+        "node": ">=6.0.0"
+      }
+    },
+    "node_modules/array-union": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/array-union/-/array-union-1.0.2.tgz",
+      "integrity": "sha512-Dxr6QJj/RdU/hCaBjOfxW+q6lyuVE6JFWIrAUpuOOhoJJoQ99cUn3igRaHVB5P9WrgFVN0FfArM3x0cueOU8ng==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "array-uniq": "^1.0.1"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/array-uniq": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/array-uniq/-/array-uniq-1.0.3.tgz",
+      "integrity": "sha512-MNha4BWQ6JbwhFhj03YK552f7cb3AzoE8SzeljgChvL1dl3IcvggXVz1DilzySZkCja+CXuZbdW7yATchWn8/Q==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/arrify": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/arrify/-/arrify-1.0.1.tgz",
+      "integrity": "sha512-3CYzex9M9FGQjCGMGyi6/31c8GJbgb0qGyrx5HWxPd0aCwh4cB2YjMb2Xf9UuoogrMrlO9cTqnB5rI5GHZTcUA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/asap": {
+      "version": "2.0.6",
+      "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz",
+      "integrity": "sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/balanced-match": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
+      "integrity": "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/bcp-47": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/bcp-47/-/bcp-47-2.1.0.tgz",
+      "integrity": "sha512-9IIS3UPrvIa1Ej+lVDdDwO7zLehjqsaByECw0bu2RRGP73jALm6FYbzI5gWbgHLvNdkvfXB5YrSbocZdOS0c0w==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-alphabetical": "^2.0.0",
+        "is-alphanumerical": "^2.0.0",
+        "is-decimal": "^2.0.0"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wooorm"
+      }
+    },
+    "node_modules/bcp-47-match": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/bcp-47-match/-/bcp-47-match-2.0.3.tgz",
+      "integrity": "sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==",
+      "dev": true,
+      "license": "MIT",
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wooorm"
+      }
+    },
+    "node_modules/bcp-47-normalize": {
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/bcp-47-normalize/-/bcp-47-normalize-2.3.0.tgz",
+      "integrity": "sha512-8I/wfzqQvttUFz7HVJgIZ7+dj3vUaIyIxYXaTRP1YWoSDfzt6TUmxaKZeuXR62qBmYr+nvuWINFRl6pZ5DlN4Q==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "bcp-47": "^2.0.0",
+        "bcp-47-match": "^2.0.0"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wooorm"
+      }
+    },
+    "node_modules/binary-extensions": {
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.3.0.tgz",
+      "integrity": "sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/brace-expansion": {
+      "version": "1.1.12",
+      "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz",
+      "integrity": "sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "balanced-match": "^1.0.0",
+        "concat-map": "0.0.1"
+      }
+    },
+    "node_modules/braces": {
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/braces/-/braces-3.0.3.tgz",
+      "integrity": "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "fill-range": "^7.1.1"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/chokidar": {
+      "version": "3.6.0",
+      "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-3.6.0.tgz",
+      "integrity": "sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "anymatch": "~3.1.2",
+        "braces": "~3.0.2",
+        "glob-parent": "~5.1.2",
+        "is-binary-path": "~2.1.0",
+        "is-glob": "~4.0.1",
+        "normalize-path": "~3.0.0",
+        "readdirp": "~3.6.0"
+      },
+      "engines": {
+        "node": ">= 8.10.0"
+      },
+      "funding": {
+        "url": "https://paulmillr.com/funding/"
+      },
+      "optionalDependencies": {
+        "fsevents": "~2.3.2"
+      }
+    },
+    "node_modules/commander": {
+      "version": "10.0.1",
+      "resolved": "https://registry.npmjs.org/commander/-/commander-10.0.1.tgz",
+      "integrity": "sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=14"
+      }
+    },
+    "node_modules/concat-map": {
+      "version": "0.0.1",
+      "resolved": "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz",
+      "integrity": "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/debug": {
+      "version": "4.4.3",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+      "license": "MIT",
+      "dependencies": {
+        "ms": "^2.1.3"
+      },
+      "engines": {
+        "node": ">=6.0"
+      },
+      "peerDependenciesMeta": {
+        "supports-color": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/depd": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz",
+      "integrity": "sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/dependency-graph": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/dependency-graph/-/dependency-graph-1.0.0.tgz",
+      "integrity": "sha512-cW3gggJ28HZ/LExwxP2B++aiKxhJXMSIt9K48FOXQkm+vuG5gyatXnLsONRJdzO/7VfjDIiaOOa/bs4l464Lwg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/dom-serializer": {
+      "version": "1.4.1",
+      "resolved": "https://registry.npmjs.org/dom-serializer/-/dom-serializer-1.4.1.tgz",
+      "integrity": "sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==",
+      "license": "MIT",
+      "dependencies": {
+        "domelementtype": "^2.0.1",
+        "domhandler": "^4.2.0",
+        "entities": "^2.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/cheeriojs/dom-serializer?sponsor=1"
+      }
+    },
+    "node_modules/dom-serializer/node_modules/entities": {
+      "version": "2.2.0",
+      "resolved": "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz",
+      "integrity": "sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==",
+      "license": "BSD-2-Clause",
+      "funding": {
+        "url": "https://github.com/fb55/entities?sponsor=1"
+      }
+    },
+    "node_modules/domelementtype": {
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/domelementtype/-/domelementtype-2.3.0.tgz",
+      "integrity": "sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/fb55"
+        }
+      ],
+      "license": "BSD-2-Clause"
+    },
+    "node_modules/domhandler": {
+      "version": "4.3.1",
+      "resolved": "https://registry.npmjs.org/domhandler/-/domhandler-4.3.1.tgz",
+      "integrity": "sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==",
+      "license": "BSD-2-Clause",
+      "dependencies": {
+        "domelementtype": "^2.2.0"
+      },
+      "engines": {
+        "node": ">= 4"
+      },
+      "funding": {
+        "url": "https://github.com/fb55/domhandler?sponsor=1"
+      }
+    },
+    "node_modules/domutils": {
+      "version": "2.8.0",
+      "resolved": "https://registry.npmjs.org/domutils/-/domutils-2.8.0.tgz",
+      "integrity": "sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==",
+      "license": "BSD-2-Clause",
+      "dependencies": {
+        "dom-serializer": "^1.0.1",
+        "domelementtype": "^2.2.0",
+        "domhandler": "^4.2.0"
+      },
+      "funding": {
+        "url": "https://github.com/fb55/domutils?sponsor=1"
+      }
+    },
+    "node_modules/ee-first": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
+      "integrity": "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/encodeurl": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/encodeurl/-/encodeurl-2.0.0.tgz",
+      "integrity": "sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/entities": {
+      "version": "6.0.1",
+      "resolved": "https://registry.npmjs.org/entities/-/entities-6.0.1.tgz",
+      "integrity": "sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==",
+      "dev": true,
+      "license": "BSD-2-Clause",
+      "engines": {
+        "node": ">=0.12"
+      },
+      "funding": {
+        "url": "https://github.com/fb55/entities?sponsor=1"
+      }
+    },
+    "node_modules/errno": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/errno/-/errno-1.0.0.tgz",
+      "integrity": "sha512-3zV5mFS1E8/1bPxt/B0xxzI1snsg3uSCIh6Zo1qKg6iMw93hzPANk9oBFzSFBFrwuVoQuE3rLoouAUfwOAj1wQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "prr": "~1.0.1"
+      },
+      "bin": {
+        "errno": "cli.js"
+      }
+    },
+    "node_modules/escape-html": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
+      "integrity": "sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/escape-string-regexp": {
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz",
+      "integrity": "sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/esm-import-transformer": {
+      "version": "3.0.5",
+      "resolved": "https://registry.npmjs.org/esm-import-transformer/-/esm-import-transformer-3.0.5.tgz",
+      "integrity": "sha512-1GKLvfuMnnpI75l8c6sHoz0L3Z872xL5akGuBudgqTDPv4Vy6f2Ec7jEMKTxlqWl/3kSvNbHELeimJtnqgYniw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "acorn": "^8.15.0"
+      }
+    },
+    "node_modules/esprima": {
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz",
+      "integrity": "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==",
+      "dev": true,
+      "license": "BSD-2-Clause",
+      "bin": {
+        "esparse": "bin/esparse.js",
+        "esvalidate": "bin/esvalidate.js"
+      },
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/etag": {
+      "version": "1.8.1",
+      "resolved": "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz",
+      "integrity": "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/evaluate-value": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/evaluate-value/-/evaluate-value-2.0.0.tgz",
+      "integrity": "sha512-VonfiuDJc0z4sOO7W0Pd130VLsXN6vmBWZlrog1mCb/o7o/Nl5Lr25+Kj/nkCCAhG+zqeeGjxhkK9oHpkgTHhQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 8"
+      }
+    },
+    "node_modules/extend-shallow": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/extend-shallow/-/extend-shallow-2.0.1.tgz",
+      "integrity": "sha512-zCnTtlxNoAiDc3gqY2aYAWFx7XWWiasuF2K8Me5WbN8otHKTUKBwjPtNpRs/rbUZm7KxWAaNj7P1a/p52GbVug==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-extendable": "^0.1.0"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/fdir": {
+      "version": "6.5.0",
+      "resolved": "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz",
+      "integrity": "sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12.0.0"
+      },
+      "peerDependencies": {
+        "picomatch": "^3 || ^4"
+      },
+      "peerDependenciesMeta": {
+        "picomatch": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/filesize": {
+      "version": "10.1.6",
+      "resolved": "https://registry.npmjs.org/filesize/-/filesize-10.1.6.tgz",
+      "integrity": "sha512-sJslQKU2uM33qH5nqewAwVB2QgR6w1aMNsYUp3aN5rMRyXEwJGmZvaWzeJFNTOXWlHQyBFCWrdj3fV/fsTOX8w==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">= 10.4.0"
+      }
+    },
+    "node_modules/fill-range": {
+      "version": "7.1.1",
+      "resolved": "https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz",
+      "integrity": "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "to-regex-range": "^5.0.1"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/finalhandler": {
+      "version": "1.3.2",
+      "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-1.3.2.tgz",
+      "integrity": "sha512-aA4RyPcd3badbdABGDuTXCMTtOneUCAYH/gxoYRTZlIJdF0YPWuGqiAsIrhNnnqdXGswYk6dGujem4w80UJFhg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "debug": "2.6.9",
+        "encodeurl": "~2.0.0",
+        "escape-html": "~1.0.3",
+        "on-finished": "~2.4.1",
+        "parseurl": "~1.3.3",
+        "statuses": "~2.0.2",
+        "unpipe": "~1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/finalhandler/node_modules/debug": {
+      "version": "2.6.9",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
+      "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "ms": "2.0.0"
+      }
+    },
+    "node_modules/finalhandler/node_modules/ms": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
+      "integrity": "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/fresh": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/fresh/-/fresh-2.0.0.tgz",
+      "integrity": "sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/fsevents": {
+      "version": "2.3.3",
+      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+      }
+    },
+    "node_modules/glob-parent": {
+      "version": "5.1.2",
+      "resolved": "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz",
+      "integrity": "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "is-glob": "^4.0.1"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/gray-matter": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/gray-matter/-/gray-matter-4.0.3.tgz",
+      "integrity": "sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "js-yaml": "^3.13.1",
+        "kind-of": "^6.0.2",
+        "section-matter": "^1.0.0",
+        "strip-bom-string": "^1.0.0"
+      },
+      "engines": {
+        "node": ">=6.0"
+      }
+    },
+    "node_modules/gray-matter/node_modules/argparse": {
+      "version": "1.0.10",
+      "resolved": "https://registry.npmjs.org/argparse/-/argparse-1.0.10.tgz",
+      "integrity": "sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "sprintf-js": "~1.0.2"
+      }
+    },
+    "node_modules/gray-matter/node_modules/js-yaml": {
+      "version": "3.14.2",
+      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.14.2.tgz",
+      "integrity": "sha512-PMSmkqxr106Xa156c2M265Z+FTrPl+oxd/rgOQy2tijQeK5TxQ43psO1ZCwhVOSdnn+RzkzlRz/eY4BgJBYVpg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "argparse": "^1.0.7",
+        "esprima": "^4.0.0"
+      },
+      "bin": {
+        "js-yaml": "bin/js-yaml.js"
+      }
+    },
+    "node_modules/htmlparser2": {
+      "version": "7.2.0",
+      "resolved": "https://registry.npmjs.org/htmlparser2/-/htmlparser2-7.2.0.tgz",
+      "integrity": "sha512-H7MImA4MS6cw7nbyURtLPO1Tms7C5H602LRETv95z1MxO/7CP7rDVROehUYeYBUYEON94NXXDEPmZuq+hX4sog==",
+      "funding": [
+        "https://github.com/fb55/htmlparser2?sponsor=1",
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/fb55"
+        }
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "domelementtype": "^2.0.1",
+        "domhandler": "^4.2.2",
+        "domutils": "^2.8.0",
+        "entities": "^3.0.1"
+      }
+    },
+    "node_modules/htmlparser2/node_modules/entities": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/entities/-/entities-3.0.1.tgz",
+      "integrity": "sha512-WiyBqoomrwMdFG1e0kqvASYfnlb0lp8M5o5Fw2OFq1hNZxxcNk8Ik0Xm7LxzBhuidnZB/UtBqVCgUz3kBOP51Q==",
+      "license": "BSD-2-Clause",
+      "engines": {
+        "node": ">=0.12"
+      },
+      "funding": {
+        "url": "https://github.com/fb55/entities?sponsor=1"
+      }
+    },
+    "node_modules/http-equiv-refresh": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/http-equiv-refresh/-/http-equiv-refresh-2.0.1.tgz",
+      "integrity": "sha512-XJpDL/MLkV3dKwLzHwr2dY05dYNfBNlyPu4STQ8WvKCFdc6vC5tPXuq28of663+gHVg03C+16pHHs/+FmmDjcw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/http-errors": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-2.0.1.tgz",
+      "integrity": "sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "depd": "~2.0.0",
+        "inherits": "~2.0.4",
+        "setprototypeof": "~1.2.0",
+        "statuses": "~2.0.2",
+        "toidentifier": "~1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/inherits": {
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+      "integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==",
+      "dev": true,
+      "license": "ISC"
+    },
+    "node_modules/is-alphabetical": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/is-alphabetical/-/is-alphabetical-2.0.1.tgz",
+      "integrity": "sha512-FWyyY60MeTNyeSRpkM2Iry0G9hpr7/9kD40mD/cGQEuilcZYS4okz8SN2Q6rLCJ8gbCt6fN+rC+6tMGS99LaxQ==",
+      "dev": true,
+      "license": "MIT",
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wooorm"
+      }
+    },
+    "node_modules/is-alphanumerical": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/is-alphanumerical/-/is-alphanumerical-2.0.1.tgz",
+      "integrity": "sha512-hmbYhX/9MUMF5uh7tOXyK/n0ZvWpad5caBA17GsC6vyuCqaWliRG5K1qS9inmUhEMaOBIW7/whAnSwveW/LtZw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-alphabetical": "^2.0.0",
+        "is-decimal": "^2.0.0"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wooorm"
+      }
+    },
+    "node_modules/is-binary-path": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/is-binary-path/-/is-binary-path-2.1.0.tgz",
+      "integrity": "sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "binary-extensions": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/is-decimal": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/is-decimal/-/is-decimal-2.0.1.tgz",
+      "integrity": "sha512-AAB9hiomQs5DXWcRB1rqsxGUstbRroFOPPVAomNk/3XHR5JyEZChOyTWe2oayKnsSsr/kcGqF+z6yuH6HHpN0A==",
+      "dev": true,
+      "license": "MIT",
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wooorm"
+      }
+    },
+    "node_modules/is-extendable": {
+      "version": "0.1.1",
+      "resolved": "https://registry.npmjs.org/is-extendable/-/is-extendable-0.1.1.tgz",
+      "integrity": "sha512-5BMULNob1vgFX6EjQw5izWDxrecWK9AM72rugNr0TFldMOi0fj6Jk+zeKIt0xGj4cEfQIJth4w3OKWOJ4f+AFw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-extglob": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz",
+      "integrity": "sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-glob": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz",
+      "integrity": "sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-extglob": "^2.1.1"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-json": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/is-json/-/is-json-2.0.1.tgz",
+      "integrity": "sha512-6BEnpVn1rcf3ngfmViLM6vjUjGErbdrL4rwlv+u1NO1XO8kqT4YGL8+19Q+Z/bas8tY90BTWMk2+fW1g6hQjbA==",
+      "license": "ISC"
+    },
+    "node_modules/is-number": {
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz",
+      "integrity": "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.12.0"
+      }
+    },
+    "node_modules/iso-639-1": {
+      "version": "3.1.5",
+      "resolved": "https://registry.npmjs.org/iso-639-1/-/iso-639-1-3.1.5.tgz",
+      "integrity": "sha512-gXkz5+KN7HrG0Q5UGqSMO2qB9AsbEeyLP54kF1YrMsIxmu+g4BdB7rflReZTSTZGpfj8wywu6pfPBCylPIzGQA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=6.0"
+      }
+    },
+    "node_modules/js-yaml": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.1.tgz",
+      "integrity": "sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "argparse": "^2.0.1"
+      },
+      "bin": {
+        "js-yaml": "bin/js-yaml.js"
+      }
+    },
+    "node_modules/junk": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/junk/-/junk-3.1.0.tgz",
+      "integrity": "sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/kind-of": {
+      "version": "6.0.3",
+      "resolved": "https://registry.npmjs.org/kind-of/-/kind-of-6.0.3.tgz",
+      "integrity": "sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/kleur": {
+      "version": "4.1.5",
+      "resolved": "https://registry.npmjs.org/kleur/-/kleur-4.1.5.tgz",
+      "integrity": "sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=6"
+      }
+    },
+    "node_modules/linkify-it": {
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/linkify-it/-/linkify-it-5.0.0.tgz",
+      "integrity": "sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "uc.micro": "^2.0.0"
+      }
+    },
+    "node_modules/liquidjs": {
+      "version": "10.25.0",
+      "resolved": "https://registry.npmjs.org/liquidjs/-/liquidjs-10.25.0.tgz",
+      "integrity": "sha512-XpO7AiGULTG4xcTlwkcTI5JreFG7b6esLCLp+aUSh7YuQErJZEoUXre9u9rbdb0057pfWG4l0VursvLd5Q/eAw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "commander": "^10.0.0"
+      },
+      "bin": {
+        "liquid": "bin/liquid.js",
+        "liquidjs": "bin/liquid.js"
+      },
+      "engines": {
+        "node": ">=16"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/liquidjs"
+      }
+    },
+    "node_modules/list-to-array": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/list-to-array/-/list-to-array-1.1.0.tgz",
+      "integrity": "sha512-+dAZZ2mM+/m+vY9ezfoueVvrgnHIGi5FvgSymbIgJOFwiznWyA59mav95L+Mc6xPtL3s9gm5eNTlNtxJLbNM1g==",
+      "license": "MIT"
+    },
+    "node_modules/luxon": {
+      "version": "3.7.2",
+      "resolved": "https://registry.npmjs.org/luxon/-/luxon-3.7.2.tgz",
+      "integrity": "sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/markdown-it": {
+      "version": "14.1.1",
+      "resolved": "https://registry.npmjs.org/markdown-it/-/markdown-it-14.1.1.tgz",
+      "integrity": "sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "argparse": "^2.0.1",
+        "entities": "^4.4.0",
+        "linkify-it": "^5.0.0",
+        "mdurl": "^2.0.0",
+        "punycode.js": "^2.3.1",
+        "uc.micro": "^2.1.0"
+      },
+      "bin": {
+        "markdown-it": "bin/markdown-it.mjs"
+      }
+    },
+    "node_modules/markdown-it/node_modules/entities": {
+      "version": "4.5.0",
+      "resolved": "https://registry.npmjs.org/entities/-/entities-4.5.0.tgz",
+      "integrity": "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==",
+      "dev": true,
+      "license": "BSD-2-Clause",
+      "engines": {
+        "node": ">=0.12"
+      },
+      "funding": {
+        "url": "https://github.com/fb55/entities?sponsor=1"
+      }
+    },
+    "node_modules/maximatch": {
+      "version": "0.1.0",
+      "resolved": "https://registry.npmjs.org/maximatch/-/maximatch-0.1.0.tgz",
+      "integrity": "sha512-9ORVtDUFk4u/NFfo0vG/ND/z7UQCVZBL539YW0+U1I7H1BkZwizcPx5foFv7LCPcBnm2U6RjFnQOsIvN4/Vm2A==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "array-differ": "^1.0.0",
+        "array-union": "^1.0.1",
+        "arrify": "^1.0.0",
+        "minimatch": "^3.0.0"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/mdurl": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/mdurl/-/mdurl-2.0.0.tgz",
+      "integrity": "sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/mime": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz",
+      "integrity": "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==",
+      "dev": true,
+      "license": "MIT",
+      "bin": {
+        "mime": "cli.js"
+      },
+      "engines": {
+        "node": ">=10.0.0"
+      }
+    },
+    "node_modules/mime-db": {
+      "version": "1.54.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.54.0.tgz",
+      "integrity": "sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/mime-types": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-3.0.2.tgz",
+      "integrity": "sha512-Lbgzdk0h4juoQ9fCKXW4by0UJqj+nOOrI9MJ1sSj4nI8aI2eo1qmvQEie4VD1glsS250n15LsWsYtCugiStS5A==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "mime-db": "^1.54.0"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/minimatch": {
+      "version": "3.1.5",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+      "integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "brace-expansion": "^1.1.7"
+      },
+      "engines": {
+        "node": "*"
+      }
+    },
+    "node_modules/minimist": {
+      "version": "1.2.8",
+      "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+      "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",
+      "dev": true,
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/minipass": {
+      "version": "7.1.3",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+      "integrity": "sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==",
+      "dev": true,
+      "license": "BlueOak-1.0.0",
+      "engines": {
+        "node": ">=16 || 14 >=14.17"
+      }
+    },
+    "node_modules/moo": {
+      "version": "0.5.3",
+      "resolved": "https://registry.npmjs.org/moo/-/moo-0.5.3.tgz",
+      "integrity": "sha512-m2fmM2dDm7GZQsY7KK2cme8agi+AAljILjQnof7p1ZMDe6dQ4bdnSMx0cPppudoeNv5hEFQirN6u+O4fDE0IWA==",
+      "dev": true,
+      "license": "BSD-3-Clause"
+    },
+    "node_modules/morphdom": {
+      "version": "2.7.8",
+      "resolved": "https://registry.npmjs.org/morphdom/-/morphdom-2.7.8.tgz",
+      "integrity": "sha512-D/fR4xgGUyVRbdMGU6Nejea1RFzYxYtyurG4Fbv2Fi/daKlWKuXGLOdXtl+3eIwL110cI2hz1ZojGICjjFLgTg==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/ms": {
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+      "license": "MIT"
+    },
+    "node_modules/node-retrieve-globals": {
+      "version": "6.0.1",
+      "resolved": "https://registry.npmjs.org/node-retrieve-globals/-/node-retrieve-globals-6.0.1.tgz",
+      "integrity": "sha512-j0DeFuZ/Wg3VlklfbxUgZF/mdHMTEiEipBb3q0SpMMbHaV3AVfoUQF8UGxh1s/yjqO0TgRZd4Pi/x2yRqoQ4Eg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "acorn": "^8.14.1",
+        "acorn-walk": "^8.3.4",
+        "esm-import-transformer": "^3.0.3"
+      }
+    },
+    "node_modules/normalize-path": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz",
+      "integrity": "sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/nunjucks": {
+      "version": "3.2.4",
+      "resolved": "https://registry.npmjs.org/nunjucks/-/nunjucks-3.2.4.tgz",
+      "integrity": "sha512-26XRV6BhkgK0VOxfbU5cQI+ICFUtMLixv1noZn1tGU38kQH5A5nmmbk/O45xdyBhD1esk47nKrY0mvQpZIhRjQ==",
+      "dev": true,
+      "license": "BSD-2-Clause",
+      "dependencies": {
+        "a-sync-waterfall": "^1.0.0",
+        "asap": "^2.0.3",
+        "commander": "^5.1.0"
+      },
+      "bin": {
+        "nunjucks-precompile": "bin/precompile"
+      },
+      "engines": {
+        "node": ">= 6.9.0"
+      },
+      "peerDependencies": {
+        "chokidar": "^3.3.0"
+      },
+      "peerDependenciesMeta": {
+        "chokidar": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/nunjucks/node_modules/commander": {
+      "version": "5.1.0",
+      "resolved": "https://registry.npmjs.org/commander/-/commander-5.1.0.tgz",
+      "integrity": "sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/on-finished": {
+      "version": "2.4.1",
+      "resolved": "https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz",
+      "integrity": "sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "ee-first": "1.1.1"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/parse-srcset": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/parse-srcset/-/parse-srcset-1.0.2.tgz",
+      "integrity": "sha512-/2qh0lav6CmI15FzA3i/2Bzk2zCgQhGMkvhOhKNcBVQ1ldgpbfiNTVslmooUmWJcADi1f1kIeynbDRVzNlfR6Q==",
+      "license": "MIT"
+    },
+    "node_modules/parseurl": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz",
+      "integrity": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/picomatch": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz",
+      "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/please-upgrade-node": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/please-upgrade-node/-/please-upgrade-node-3.2.0.tgz",
+      "integrity": "sha512-gQR3WpIgNIKwBMVLkpMUeR3e1/E1y42bqDQZfql+kDeXd8COYfM8PQA4X6y7a8u9Ua9FHmsrrmirW2vHs45hWg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "semver-compare": "^1.0.0"
+      }
+    },
+    "node_modules/posthtml": {
+      "version": "0.16.7",
+      "resolved": "https://registry.npmjs.org/posthtml/-/posthtml-0.16.7.tgz",
+      "integrity": "sha512-7Hc+IvlQ7hlaIfQFZnxlRl0jnpWq2qwibORBhQYIb0QbNtuicc5ZxvKkVT71HJ4Py1wSZ/3VR1r8LfkCtoCzhw==",
+      "license": "MIT",
+      "dependencies": {
+        "posthtml-parser": "^0.11.0",
+        "posthtml-render": "^3.0.0"
+      },
+      "engines": {
+        "node": ">=12.0.0"
+      }
+    },
+    "node_modules/posthtml-match-helper": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/posthtml-match-helper/-/posthtml-match-helper-2.0.3.tgz",
+      "integrity": "sha512-p9oJgTdMF2dyd7WE54QI1LvpBIkNkbSiiECKezNnDVYhGhD1AaOnAkw0Uh0y5TW+OHO8iBdSqnd8Wkpb6iUqmw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "peerDependencies": {
+        "posthtml": "^0.16.6"
+      }
+    },
+    "node_modules/posthtml-parser": {
+      "version": "0.11.0",
+      "resolved": "https://registry.npmjs.org/posthtml-parser/-/posthtml-parser-0.11.0.tgz",
+      "integrity": "sha512-QecJtfLekJbWVo/dMAA+OSwY79wpRmbqS5TeXvXSX+f0c6pW4/SE6inzZ2qkU7oAMCPqIDkZDvd/bQsSFUnKyw==",
+      "license": "MIT",
+      "dependencies": {
+        "htmlparser2": "^7.1.1"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/posthtml-render": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/posthtml-render/-/posthtml-render-3.0.0.tgz",
+      "integrity": "sha512-z+16RoxK3fUPgwaIgH9NGnK1HKY9XIDpydky5eQGgAFVXTCSezalv9U2jQuNV+Z9qV1fDWNzldcw4eK0SSbqKA==",
+      "license": "MIT",
+      "dependencies": {
+        "is-json": "^2.0.1"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/prr": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/prr/-/prr-1.0.1.tgz",
+      "integrity": "sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/punycode.js": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/punycode.js/-/punycode.js-2.3.1.tgz",
+      "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=6"
+      }
+    },
+    "node_modules/range-parser": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz",
+      "integrity": "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/readdirp": {
+      "version": "3.6.0",
+      "resolved": "https://registry.npmjs.org/readdirp/-/readdirp-3.6.0.tgz",
+      "integrity": "sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "picomatch": "^2.2.1"
+      },
+      "engines": {
+        "node": ">=8.10.0"
+      }
+    },
+    "node_modules/readdirp/node_modules/picomatch": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz",
+      "integrity": "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/sax": {
+      "version": "1.5.0",
+      "resolved": "https://registry.npmjs.org/sax/-/sax-1.5.0.tgz",
+      "integrity": "sha512-21IYA3Q5cQf089Z6tgaUTr7lDAyzoTPx5HRtbhsME8Udispad8dC/+sziTNugOEx54ilvatQ9YCzl4KQLPcRHA==",
+      "license": "BlueOak-1.0.0",
+      "engines": {
+        "node": ">=11.0.0"
+      }
+    },
+    "node_modules/section-matter": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/section-matter/-/section-matter-1.0.0.tgz",
+      "integrity": "sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "extend-shallow": "^2.0.1",
+        "kind-of": "^6.0.0"
+      },
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/semver": {
+      "version": "7.7.4",
+      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.4.tgz",
+      "integrity": "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==",
+      "dev": true,
+      "license": "ISC",
+      "bin": {
+        "semver": "bin/semver.js"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/semver-compare": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/semver-compare/-/semver-compare-1.0.0.tgz",
+      "integrity": "sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/send": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/send/-/send-1.2.1.tgz",
+      "integrity": "sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "debug": "^4.4.3",
+        "encodeurl": "^2.0.0",
+        "escape-html": "^1.0.3",
+        "etag": "^1.8.1",
+        "fresh": "^2.0.0",
+        "http-errors": "^2.0.1",
+        "mime-types": "^3.0.2",
+        "ms": "^2.1.3",
+        "on-finished": "^2.4.1",
+        "range-parser": "^1.2.1",
+        "statuses": "^2.0.2"
+      },
+      "engines": {
+        "node": ">= 18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/setprototypeof": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz",
+      "integrity": "sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==",
+      "dev": true,
+      "license": "ISC"
+    },
+    "node_modules/sitemap": {
+      "version": "6.4.0",
+      "resolved": "https://registry.npmjs.org/sitemap/-/sitemap-6.4.0.tgz",
+      "integrity": "sha512-DoPKNc2/apQZTUnfiOONWctwq7s6dZVspxAZe2VPMNtoqNq7HgXRvlRnbIpKjf+8+piQdWncwcy+YhhTGY5USQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/node": "^14.14.28",
+        "@types/sax": "^1.2.1",
+        "arg": "^5.0.0",
+        "sax": "^1.2.4"
+      },
+      "bin": {
+        "sitemap": "dist/cli.js"
+      },
+      "engines": {
+        "node": ">=10.3.0",
+        "npm": ">=5.6.0"
+      }
+    },
+    "node_modules/slash": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/slash/-/slash-3.0.0.tgz",
+      "integrity": "sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/slugify": {
+      "version": "1.6.6",
+      "resolved": "https://registry.npmjs.org/slugify/-/slugify-1.6.6.tgz",
+      "integrity": "sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8.0.0"
+      }
+    },
+    "node_modules/sprintf-js": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz",
+      "integrity": "sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==",
+      "dev": true,
+      "license": "BSD-3-Clause"
+    },
+    "node_modules/ssri": {
+      "version": "11.0.0",
+      "resolved": "https://registry.npmjs.org/ssri/-/ssri-11.0.0.tgz",
+      "integrity": "sha512-aZpUoMN/Jj2MqA4vMCeiKGnc/8SuSyHbGSBdgFbZxP8OJGF/lFkIuElzPxsN0q8TQQ+prw3P4EDfB3TBHHgfXw==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "minipass": "^7.0.3"
+      },
+      "engines": {
+        "node": "^16.14.0 || >=18.0.0"
+      }
+    },
+    "node_modules/statuses": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/statuses/-/statuses-2.0.2.tgz",
+      "integrity": "sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/strip-bom-string": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/strip-bom-string/-/strip-bom-string-1.0.0.tgz",
+      "integrity": "sha512-uCC2VHvQRYu+lMh4My/sFNmF2klFymLX1wHJeXnbEJERpV/ZsVuonzerjfrGpIGF7LBVa1O7i9kjiWvJiFck8g==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/tinyglobby": {
+      "version": "0.2.15",
+      "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.15.tgz",
+      "integrity": "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "fdir": "^6.5.0",
+        "picomatch": "^4.0.3"
+      },
+      "engines": {
+        "node": ">=12.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/SuperchupuDev"
+      }
+    },
+    "node_modules/to-regex-range": {
+      "version": "5.0.1",
+      "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",
+      "integrity": "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-number": "^7.0.0"
+      },
+      "engines": {
+        "node": ">=8.0"
+      }
+    },
+    "node_modules/toidentifier": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz",
+      "integrity": "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.6"
+      }
+    },
+    "node_modules/uc.micro": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/uc.micro/-/uc.micro-2.1.0.tgz",
+      "integrity": "sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/unpipe": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz",
+      "integrity": "sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/urlpattern-polyfill": {
+      "version": "10.1.0",
+      "resolved": "https://registry.npmjs.org/urlpattern-polyfill/-/urlpattern-polyfill-10.1.0.tgz",
+      "integrity": "sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/ws": {
+      "version": "8.19.0",
+      "resolved": "https://registry.npmjs.org/ws/-/ws-8.19.0.tgz",
+      "integrity": "sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=10.0.0"
+      },
+      "peerDependencies": {
+        "bufferutil": "^4.0.1",
+        "utf-8-validate": ">=5.0.2"
+      },
+      "peerDependenciesMeta": {
+        "bufferutil": {
+          "optional": true
+        },
+        "utf-8-validate": {
+          "optional": true
+        }
+      }
+    }
+  }
+}
+
+
+----- FILE: ..\site\package.json -----
+
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "npx @11ty/eleventy --serve",
+    "build": "npx @11ty/eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stillejiarou/site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/stillejiarou/site/issues"
+  },
+  "homepage": "https://github.com/stillejiarou/site#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  },
+  "dependencies": {
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "@quasibit/eleventy-plugin-sitemap": "^2.2.0"
+  }
+}
+
+
+----- FILE: ..\site\script.js -----
+
+// BREADCRUMBS
+(function () {
+  const container = document.getElementById("breadcrumbs");
+  if (!container) return;
+
+  const path = window.location.pathname;
+
+  const segments = path
+    .split("/")
+    .filter(s =>
+      s.length > 0 &&
+      s !== "pages" &&
+      s !== "home" &&
+      !s.startsWith("index")
+    );
+
+  let html = `<nav class="breadcrumbs">/ `;
+
+  if (segments.length === 0) {
+    container.innerHTML = html + `</nav>`;
+    return;
+  }
+
+  const labels = segments.map(seg =>
+    seg
+      .replace(".html", "")
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, c => c.toUpperCase())
+  );
+
+  html += labels
+    .map((label, i) => {
+      const isLast = i === labels.length - 1;
+
+      if (isLast) {
+        return `<span class="p-name">${label}</span>`;
+      }
+
+      const link = "/" + segments.slice(0, i + 1).join("/") + "/";
+      return `<a class="u-url" href="${link}">${label}</a> / `;
+    })
+    .join("");
+
+  html += `</nav>`;
+  container.innerHTML = html;
+})();
+
+// CLICKABLES
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".clickable").forEach(article => {
+    article.addEventListener("click", (e) => {
+      if (e.target.tagName.toLowerCase() !== 'a') {
+        window.location.href = article.dataset.url;
+      }
+    });
+  });
+});
+
+// DARKMODE
+
+const root = document.documentElement;
+const toggle = document.getElementById("theme-toggle");
+
+const saved = localStorage.getItem("theme");
+if (saved === "dark") {
+  root.classList.add("dark");
+  toggle.textContent = "☀︎";
+}
+
+toggle.addEventListener("click", () => {
+  const dark = root.classList.toggle("dark");
+  toggle.textContent = dark ? "☀︎" : "☾";
+  localStorage.setItem("theme", dark ? "dark" : "light");
+});
+
+// DEBUG
+console.log("It works!");
+
+----- FILE: ..\site\style.css -----
+
+/* variables */
+
+:root {
+  --text-color: #191970;
+  --accent: #4682b4;
+  --background: #f0f8ff;
+  --surface: #ffffff;
+
+  --opacity-subtle: 0.35;
+
+  --font-family: 'Courier New', Courier, monospace;
+
+  --xs: 4px;
+  --sm: 8px;
+  --md: 16px;
+  --lg: 32px;
+  --xl: 48px;
+
+  --main-width: 900px;
+  --reading-width: 65ch;
+
+  --font-weight-bold: 700;
+  --line-height-h: 1;
+  --line-height-p: 1.6;
+
+  --border: 1px solid var(--text-color);
+  --box-shadow: 3px 3px 3px var(--accent), -3px -3px 3px var(--accent);
+  --border-radius: 3px;
+}
+
+/* dark mode */
+.dark {
+  --text-color: #e6e6fa;
+  --accent: #87cefa;
+  --background: #0b0c10;
+  --surface: #1f2833;
+
+  --border: 1px solid var(--text-color);
+  --box-shadow: 3px 3px 3px var(--accent), -3px -3px 3px var(--accent);
+}
+
+/* global */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: var(--line-height-p);
+  color: var(--text-color);
+
+  cursor: default;
+  scroll-behavior: smooth;
+  user-select: text;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+body {
+  background-color: var(--background);
+}
+
+/* extra */
+
+::selection {
+  color: var(--surface);
+  background: var(--text-color);
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/* global wrapper */
+
+main {
+  min-height: 100vh;
+}
+
+/* header and footer */
+
+.site-header,
+.h-nav,
+.site-footer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--md);
+  white-space: nowrap;
+}
+
+.site-header {
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--surface);
+  border-bottom: solid var(--background);
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-footer {
+  justify-content: center;
+}
+
+/* header individual items */
+
+.h-nav {
+  align-items: center;
+}
+
+#theme-toggle {
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+#theme-toggle:hover {
+  text-shadow: var(--box-shadow);
+}
+
+/* blocks */
+
+.h-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md);
+}
+
+.h-entry {
+  background-color: var(--surface);
+  padding: var(--md);
+}
+
+.h-feed .h-entry {
+  cursor: pointer;
+}
+
+section {
+  margin: var(--md) 0;
+}
+
+/* typography */
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+  line-height: var(--line-height-h);
+}
+
+a {
+  color: var(--text-color);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+.u-url {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+ol {
+  margin-left: var(--lg);
+}
+
+/* img and iframe */
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+iframe {
+  border: none;
+}
+
+/* input */
+
+button {
+  padding: var(--sm) var(--md);
+  margin: var(--sm);
+  background-color: var(--accent);
+  border: var(--border);
+}
+
+button:hover {
+  background-color: var(--surface);
+}
+
+/* util */
+
+.subtle {
+  opacity: var(--opacity-subtle);
+}
+
+/* misc */
+
+.sub-meta {
+  opacity: var(--opacity-subtle);
+}
+
+.p-category::before {
+  content: "#";
+}
+
+.breadcrumbs {
+  opacity: var(--opacity-subtle);
+}
+
+.reading-width {
+  max-width: var(--reading-width);
+  margin: auto;
+}
+
+.flex-feed {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.h-feed .flex-card {
+  width: fit-content;
+  padding: var(--xl);
+  margin: 0;
+  cursor: default;
+}
+
+/* homepage */
+
+.homepage-flex {
+  display: flex;
+}
+
+/* weiqi */
+
+.goban {
+  width: 300px;
+  display: block;
+  margin: auto;
+}
+
+.slide {
+  height: 400px;
+  padding: var(--md);
+}
+
+.slideshow nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.slideshow .slide {
+  display: none;
+}
+
+.slideshow .slide.current-slide {
+  display: block;
+}
+
+/* ----------------------------------------------- */
+
+@media (min-width: 900px) {
+  .page {
+    max-width: var(--main-width);
+    margin: 0 auto;
+  }
+
+  main {
+    padding: var(--md) 0;
+  }
+
+  .site-header {
+    padding: var(--md);
+  }
+
+  .homepage-flex {
+    flex-direction: row;
+  }
+}
+
+/* ----------------------------------------------- */
+
+@media (max-width: 600px) {
+  .main {
+    max-width: 100vw;
+  }
+
+  .site-header {
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: var(--sm) 0;
+  }
+
+  .site-header .h-nav {
+    flex-wrap: nowrap;
+    gap: var(--sm);
+  }
+
+  .site-header a {
+    font-size: 0.9rem;
+  }
+
+  .flex-card {
+    min-width: 100%;
+  }
+
+  .homepage-flex {
+    flex-direction: column;
+  }
+}
+
+----- FILE: ..\site\src\feed.njk -----
+
+---
+permalink: feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Stille Jia-Rou</title>
+    <link>https://stillejiarou.neocities.org/</link>
+    <description>Guides on Weiqi, coding notes, art, and devlogs.</description>
+    {% for post in collections.all | reverse %}
+      <item>
+        <title>{{ post.data.title }}</title>
+        <link>https://stillejiarou.neocities.org{{ post.url }}</link>
+        <pubDate>{{ post.date | dateToRfc822 }}</pubDate>
+        <description>{{ post.data.summary }}</description>
+      </item>
+    {% endfor %}
+  </channel>
+</rss>
+
+----- FILE: ..\site\src\index.njk -----
+
+---
+title: Homepage
+description: Welcome to my site
+layout: layouts/base.njk
+---
+
+{% include "homepage.njk" %}
+
+----- FILE: ..\site\src\not_found.njk -----
+
+---
+title: Not Found
+description: Page not found
+layout: layouts/base.njk
+permalink: not_found.html
+eleventyExcludeFromCollections: true
+---
+
+{% include "homepage.njk" %}
+
+
+
+----- FILE: ..\site\src\sitemap.njk -----
+
+---
+permalink: sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% for page in collections.all %}
+    <url>
+      <loc>https://stillejiarou.neocities.org{{ page.url }}</loc>
+      <lastmod>{{ page.date | dateToRfc3339 }}</lastmod>
+    </url>
+  {% endfor %}
+</urlset>
+
+----- FILE: ..\site\src\art\index.njk -----
+
+---
+title: Art
+layout: layouts/category.njk
+tag: art
+---
+
+----- FILE: ..\site\src\art\untitled-novel.md -----
+
+---
+title: Untitled Novel
+date: 2026-03-08
+tags: art
+summary: Something was amiss but I did as Master had taught us...
+layout: layouts/article.njk
+---
+
+## Chapter 1
+
+It was dawn and the sky tinted red, just like the ground littered with bodies. Jue Lian was one of them. She had a rusty
+sword driven straight through her chest, having pierced the armor with ease. The other warriors in her age had also
+fallen, leaving only their superiors left standing against the hoard from the North. The sky was turning pink, such a
+beautiful sky to spend the last breaths soaking in. Jue Lian closed her eyes, finally letting herself rest after the
+painful battle she had lost. She couldn't help but feel bad for her Master however. He was also somewhere on the
+battlefield, fighting for not only his own life but all of his treasured disciples. If he knew that the whole left
+formation had been killed, he'd likely let the enemies take him too. That was the kind of master he was, he cared about
+his students more than any other masters back at the temple. He cared so much in fact that the second he got word about
+their formation breaking, he was riding back to where his disciples had been stationed and began counting the wounded.
+He was a skilled warrior, and carried the dying youths one by one onto the carriage while at the same time handling the
+enemies attacks with his free hand. To his relief, no one seemed to beyond saving, if they got to safety before that
+changed that was. Jue Lian smiled, knowing that her fellow trainees were safe with Master. Suddenly someone yelled what
+sounded like her name. "Jue Lian! She was stabbed!" One of the wounded who were still conscious roared. Master crouched
+down to her, lifting her into a sitting position in attempt to get her back with the rest of the youths but she was too
+far gone. She couldn't be saved with just medicine and bandages. "Take my students back to the temple! NOW!" He ordered
+his horses, who were now also stained with crimson. They obeyed and Jue Lian found herself alone with her Master to say
+her final farewell. She had never seen him so enraged. He'd always taught them to not lose their composure in a battle,
+because showing weakness to the enemy would lead to certain death. "Don't close your eyes!" The screech sounded so
+desperate, a tone Jue Lian never in her life would've belonged to her master. "Don't take her! Please, Destiny...." He
+gathered his strength and pulled his palms together, swiftly forming multiple hand signs one after another and then came
+the explosion as he single-handedly took out both of the enemy troupes in one blow. Jue Lian winced at the impact but
+knew it didn't matter anymore, she was going to die because that's what Destiny wanted. She'd never agreed with Destiny,
+always wanted her voice to be her own but this time was different. She had submitted to Her just like everyone else.
+Even as a child, she'd pester Master with relentless questions. He'd call her too curious for her own good and respond
+with the same vague riddle each time. "We are all allowed the choice of choice, but that doesn't mean the road wont make
+it's own bumps once you walk it's path." Jue Lian coughed up a bitter laugh. Here she was dying and suddenly all she was
+thinking about were the strange riddles her master had taught her when she was a child. Master was recovering from the
+intense use of energy but pulled his palms back together. If Jue Lian couldn't be saved by medicine, then there was only
+one option left and he didn't have time to hesitate. "Master! No!" Jue Lian's eyes widened in fear as she recognized his
+technique. It was The Hand Sign of The Snake, the very technique he has preached to be forbidden. It had grave
+consequences, everyone under the roof of The Lotus Temple knew that. The Hand Sign of The snake is to oppose Destiny
+herself, which was not anything anyone wanted to even imagine. She was almighty, and the tales told that she ruled over
+multiple worlds as an all knowing god. Jue Lian couldn't stop the ritual as she suddenly froze completely still. Master
+had pressed his index fingers onto her third eye and everything went black. Was this the end? She thought quietly in the
+void of her own mind. Did she die anyway? "Is this hell?" She whispered faintly.
+
+## Chapter 2
+
+It was evening and the sun had already begun to set. The sky had shifted to a beautiful shade of red as Julia saw out
+her window. It was almost the same shade of crimson red that she was drawing with, drawing long and bright lines along
+the paper. After lifting her pencil, that familiar ache in her chest hit again but she ignored it and kept drawing. It
+was okay because that's just how things were. Everyone felt a bit down now and then, so Julia was just glad that her
+friends could get help when they needed it. She was already beyond repair, she'd told herself. The light of the sunset
+was beautiful and Julia found herself resting her head on the desk and closing her eyes for a rest. Maybe she had been
+drawing too much, and that's why the exhaustion now threatened to pull her under. No matter why, she felt bad for her
+parents. They were in the kitchen, discussing how to get Julia to come eat dinner together after she'd refused over and
+over again. But she was too tired, and slowly let herself drift off on the crimson painting in front of her. If her
+parents knew that she had gone to sleep, they would've likely come in with dinner to her bedroom instead just to make
+sure she could eat at least a little bit. That's just how they were, loving and caring of their child. The night went on
+and it was soon completely dark outside the window. Julia slid off her chair and curled up under her desk, a habit she'd
+developed after years of unease. She wasn't paying any mind to the paint that had been knocked over and dripped onto the
+pavement, that's just how tings were. She had plenty of classmates who also made a mes when they painted. Sleepiness was
+winning and she only whispered softly before everything went dark. "Is this hell?" Her voice echoed in the void of her
+mind.
+
+## Chapter 3
+
+Jue Lian awoke from a obnoxiously loud beep repeating beside her bed roll. One of the other disciples were definitely
+pulling a prank on her and she ignored it. The bed roll was just so comfortable, and someone had even given her a
+blanket. It must've been Master, since she had been injured and needed to be gentle with. Jue Lian sat up suddenly at
+the memory, she had been injured but nothing hurt. Everything felt fine, more than fine actually. The beeping noise
+wouldn't stop and she reached out to brush off whoever was beside her now only to feel a strange device instead. She
+opened her eyes fully and...
+
+### Comming soon!
+
+----- FILE: ..\site\src\code\index.njk -----
+
+---
+title: Code
+layout: layouts/category.njk
+tag: code
+---
+
+<article class="h-entry clickable" data-url="/code/devlog/">
+  <header>
+    <h2 class="p-name">
+      <a class="u-url u-uid" href="/code/devlog/">
+        Devlog
+      </a>
+    </h2>
+    <p class="sub-meta">
+      <span class="p-author h-card">
+        <a class="u-url p-name" href="/">Stille Jia-Rou</a>
+      </span>
+    </p>
+  </header>
+  <p class="p-summary">Read about the making of this site!</p>
+</article>
+
+<!-- regular category feed here -->
+
+----- FILE: ..\site\src\code\devlog\20260308.md -----
+
+---
+title: Day 1, Again
+date: 2026-03-08
+tags: devlog
+summary: I am once again redoing my whole site...
+layout: layouts/article.njk
+---
+
+Today has been a great day foir my site. It's been getting upgrades left and right with a bunch of JavaScript. I'm now using reusable components which will save me a bunch of time when I just wanna write about something, so that's great. I will upload the guides as well as the Chinese to Swedish dictionary tomorrow, looking forward. 
+
+----- FILE: ..\site\src\code\devlog\20260309.md -----
+
+---
+title: Trying Node.js
+date: 2026-03-09
+tags: devlog
+summary: Do I restart again? I really wanna automate RSS...
+layout: layouts/article.njk
+---
+
+Do I restart again?
+
+I really wanna automate RSS...
+
+----- FILE: ..\site\src\code\devlog\20260310.md -----
+
+---
+title: 11ty
+date: 2026-03-10
+tags: devlog
+summary: Migrating is actually going well?
+layout: layouts/article.njk
+---
+
+I think I actually migrated successfully to 11ty from pure web components??? It kind of messed with the styling cuz I had some within the
+component.js but it's okay, that's the fun part anyways. Also am thinking about devlog naming conventions, now I just set it as the current
+date. Today was a preductive day none the less and I even got git up and running. Since the styling is a bit wonky still, I won't push this 
+to Neocities just yet. I'll fix the style.css tomorrow hopefully. 
+<br><br>
+I also want to add title and date to base.njk
+
+----- FILE: ..\site\src\code\devlog\20260311.md -----
+
+---
+title: Homepage is a mess
+date: 2026-03-10
+tags: devlog
+summary: Things are going oddly smoothly...
+layout: layouts/article.njk
+---
+
+The homepage is a mess but things are actually going smoothly? I think i got the whole 11ty thing under control, 
+and I even managed some micro formats to be somehwat correct. It took a couple of tries but git should also be
+working. Now I just gotta fix some final details for the main styling and I'll be good to go. Though, I'll probably 
+push it to Neocities before that anyway. After that, I'm not sure what to build... I might just go outside for some air.
+
+----- FILE: ..\site\src\code\devlog\20260312.md -----
+
+---
+title: Homepage polishing
+date: 2026-03-12
+tags: devlog
+summary: Fixing up the details!
+layout: layouts/article.njk
+---
+
+The homepage is coming alone nicely and so is the <a href="/misc/about/">about me page</a>! I took some photos earlier today and might upload them to <a href="/art">/art</a> later.
+
+----- FILE: ..\site\src\code\devlog\index.njk -----
+
+---
+title: Devlog
+layout: layouts/category.njk
+tag: devlog
+---
+
+----- FILE: ..\site\src\misc\about.njk -----
+
+---
+title: About
+description: The page all about the webmaster cuz they're full of themselves.
+layout: layouts/base.njk
+---
+
+<div class="h-card">
+  <h2>Hello!</h2>
+  <p>
+    Hi! I'm
+    <span class="p-name">Jia-Rou</span> and I'm from
+    <span class="p-country-name">Taiwan</span>.
+    I live in
+    <span class="p-country-name">Sweden</span>
+    But my online wearabouts are at
+    <a class="u-url" rel="me" href="https://github.com/stillejiarou">GitHub</a>
+    and
+    <a class="u-url" rel="me" href="https://neocities.org/site/stillejiarou">Neocities</a>.
+    <span class="p-note">
+      A fun fact about me is... I can't come up with any. And I don't know what more to say about myself, so I'll just make a
+      bunch of lists about the things that I like!
+    </span>
+  </p>
+</div>
+<article class="h-feed flex-feed">
+  <section class="h-entry flex-card">
+    <h3>Music</h3>
+    <ol>
+      <li>Metal</li>
+      <li>Hyper Pop</li>
+      <li>Vocaloid</li>
+      <li>K-pop</li>
+      <li>Nu-Rock</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Art tools</h3>
+    <ol>
+      <li>Regular Ballpoint pens</li>
+      <li>Ica's Gridded "Kollegeblock"</li>
+      <li>Washi-tape</li>
+      <li>Brush Pens</li>
+      <li>General Notebooks</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Plants</h3>
+    <ol>
+      <li>Berries</li>
+      <li>Orchids</li>
+      <li>Lillies</li>
+      <li>Lav</li>
+      <li>Moss</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Go Players</h3>
+    <ol>
+      <li>Hei Jia-Jia</li>
+      <li>Cho Chikun</li>
+      <li>Lee Sedol</li>
+      <li>Ke Jie</li>
+      <li>Lee Chang-Ho</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Pokemon</h3>
+    <ol>
+      <li>Marshadow</li>
+      <li>Alolan Vulpix</li>
+      <li>Gyarados</li>
+      <li>Nihilego</li>
+      <li>Shiny Umbreon</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Gaming</h3>
+    <ol>
+      <li>Genshin Impact</li>
+      <li>Project Sekai</li>
+      <li>Minecraft</li>
+      <li>Omori</li>
+      <li>Pokemon Sun and Moon</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Musical Artists</h3>
+    <ol>
+      <li>BTS</li>
+      <li>Palaye Royale</li>
+      <li>Alice in Chains</li>
+      <li>Metallica</li>
+      <li>Nightcord at 25</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Colors</h3>
+    <ol>
+      <li>
+        <span style="background-color: midnightblue; color: white;">Midnight Blue</span>
+      </li>
+      <li>
+        <span style="background-color: lavenderblush; color: black;">Lavender Blush</span>
+      </li>
+      <li>
+        <span style="background-color: lightsteelblue; color: black;">Light Steel Blue</span>
+      </li>
+      <li>
+        <span style="background-color: aliceblue; color: black;">Alice Blue</span>
+      </li>
+      <li>
+        <span style="background-color: lightskyblue; color: black;">Light Sky Blue</span>
+      </li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Tags</h3>
+    <ol>
+      <li>&lt;article&gt;</li>
+      <li>&lt;section&gt;</li>
+      <li>&lt;main&gt;</li>
+      <li>&lt;nav&gt;</li>
+      <li>&lt;header&gt;</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Animals</h3>
+    <ol>
+      <li>Jellyfish</li>
+      <li>Python</li>
+      <li>Hognoose Snake</li>
+      <li>Elks</li>
+      <li>Cats</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Series</h3>
+    <ol>
+      <li>Attack on Titan</li>
+      <li>Death Note</li>
+      <li>Tokyo Ghoul</li>
+      <li>Chainsaw Man</li>
+      <li>Kuma Bear</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Movies</h3>
+    <ol>
+      <li>A Silent Voice</li>
+      <li>Lord of the Rings</li>
+      <li>Princess Mononoke</li>
+      <li>Howl's Moving Castle</li>
+      <li>Spirited Away</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Instruments Played</h3>
+    <ol>
+      <li>Aucustic Guitar</li>
+      <li>Electric Bass</li>
+      <li>Electric Guitar</li>
+      <li>Piano</li>
+      <li>Ukulele</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Want to learn</h3>
+    <ol>
+      <li>Violin</li>
+      <li>Pipa</li>
+      <li>Drums</li>
+      <li>Singing</li>
+      <li>A Flute</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Want to learn</h3>
+    <ol>
+      <li>Traditional Chinese</li>
+      <li>Sindarin</li>
+      <li>Arabic</li>
+      <li>Finnish</li>
+      <li>Ukranian</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Want to learn</h3>
+    <ol>
+      <li>Music production</li>
+      <li>"Tusch Teckning"</li>
+      <li>Chinese Calligraphy</li>
+      <li>Realistic Drawing</li>
+      <li>Artistic Writing</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Fruits</h3>
+    <ol>
+      <li>Pomelo</li>
+      <li>Kiwi</li>
+      <li>Apple</li>
+      <li>Guava</li>
+      <li>Pear</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Berries</h3>
+    <ol>
+      <li>Swedish Blueberries</li>
+      <li>Strawberries</li>
+      <li>Blackberries</li>
+      <li>Swedish Cloudberries</li>
+      <li>Goji Berries</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Veggies</h3>
+    <ol>
+      <li>Cucumber</li>
+      <li>Non-bitter Tomatoes</li>
+      <li>Zucchini</li>
+      <li>Spinich</li>
+      <li>Pak Choi</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Drinks</h3>
+    <ol>
+      <li>Oolong Tea</li>
+      <li>Cold Oolong Bubble Milk Tea 10% Sugar</li>
+      <li>Swedish "Äppel Must"</li>
+      <li>Doubble Espresso</li>
+      <li>Hot Cocoa</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Food</h3>
+    <ol>
+      <li>Beef Noodle Soup</li>
+      <li>"Parmalindad Kyckling i Balsamico-sås"</li>
+      <li>Rice and Egg</li>
+      <li>Campfire Grilled Turkey-Sausage</li>
+      <li>Pancakes</li>
+    </ol>
+  </section>
+  <section class="h-entry flex-card">
+    <h3>Sweets</h3>
+    <ol>
+      <li>Sea Weed Chips</li>
+      <li>Choclate</li>
+      <li>Fruit Jellies</li>
+      <li>Potato Chips</li>
+      <li>Coffee Jelly</li>
+    </ol>
+  </section>
+</article>
+
+----- FILE: ..\site\src\misc\index.njk -----
+
+---
+title: Playground
+description: This is the chaotic part of my site!
+layout: layouts/base.njk
+---
+
+<h2>Site Playground</h2>
+<p>This is the chaotic part of the Site... Well, the INTENTIONALL chaotic part at least.</p>
+
+<h3>Comming Soon!</h3>
+
+----- FILE: ..\site\src\weiqi\guide-pt1.md -----
+
+---
+title: Weiqi Beginner's Guide
+date: 2026-03-09
+tags: weiqi
+summary: An introduction to Weiqi explaining where beginners start.
+layout: layouts/article.njk
+---
+
+<section id="introduction">
+  <h2 class="h-name">Introduction</h2>
+  <p>Weiqi, also known as Go or Baduk, is one of the world's oldest strategy games, yet its appeal has never
+    faded. The rules are simple enough to learn in minutes, but the game's depth keeps players engaged for a
+    lifetime. Many people are drawn to Weiqi because it rewards patience, creativity, and long-term thinking
+    rather than memorization or quick reflexes. It offers a quiet, thoughtful kind of competition where each
+    move shapes the entire board, and every game becomes its own story.
+  </p>
+</section>
+<img class="blog-img" src="/img/weiqi-intro.png" loading="lazy" alt="A goban and stones">
+<section id="board-and-stones">
+  <h2 class="h-name">Board and Stones</h2>
+  <p>Weiqi is played on a grid of intersecting lines, most commonly the full 19x19 board, though beginners
+    often start on smaller 9x9 or 13x13 boards to learn the fundamentals. Black and white stones are placed on
+    the intersections rather than inside squares, and once a stone is placed, it stays on the board unless it
+    is captured. Stones that touch along the lines form groups and share liberties, the empty points that keep
+    them alive. This simple setup creates a surprising amount of strategic possibility, as every stone
+    influences the shape of the board.
+  </p>
+</section>
+<section id="gameplay">
+  <h2 class="h-name">Gameplay</h2>
+  <p>Players alternate placing one stone at a time, with Black moving first. After each move, any stones that
+    no longer have liberties are removed from the board, creating a natural rhythm of expansion, conflict, and
+    resolution. The early game tends to be open and exploratory, with players staking out broad areas. As the
+    board fills, the focus shifts to tactical fights, life-and-death struggles, and finally the precise
+    endgame where every point matters. A player may pass when no profitable move remains, and when both
+    players pass in succession, the game ends.
+  </p>
+</section>
+<section id="goal">
+  <h2 class="h-name">Goal</h2>
+  <p>The aim of Weiqi is to control more territory than your opponent. Territory consists of empty points
+    surrounded by your stones, and captured stones also contribute to your score. Throughout the game, players
+    balance the desire to secure solid territory with the need to build influence and maintain efficient
+    shapes. Good play often involves choosing moves that serve multiple purposes at once, strengthening your
+    own position while limiting your opponent's options. When the board is settled, the player with the
+    greater total of territory and captures wins.
+  </p>
+</section>
+<section id="life-and-death">
+  <h2 class="h-name">Life and Death</h2>
+  <p>A central idea in Weiqi is whether a group of stones is alive or dead. A living group is one that cannot
+    be captured, usually because it contains two separate internal liberties known as eyes. A dead group, even
+    if still on the board, is one that can be captured with correct play. Some shapes resemble eyes but can be
+    filled by the opponent; these are false eyes, and recognizing them is an important skill. Studying
+    life-and-death problems, known as tsumego, helps players learn to read ahead and understand which groups
+    can survive and which cannot.
+  </p>
+</section>
+<section id="rules">
+  <h2 class="h-name">Rules</h2>
+  <p>Although the rules of Weiqi are straightforward, a few details are essential. The ko rule prevents a
+    player from recreating the exact same board position immediately, stopping infinite loops and forcing
+    players to fight ko battles with threats elsewhere on the board. Suicide is not allowed unless placing a
+    stone would immediately capture opposing stones and restore liberties to the group. When both players
+    pass, the game ends and the board is scored. Different rule sets vary slightly in how they count points,
+    but the flow of the game remains the same across all traditions.
+  </p>
+  <h2 class="h-name">Example</h2>
+  <p>A 9x9 board is an excellent way to learn because it keeps the game compact and easy to follow.
+    Battles resolve quickly, and concepts like liberties, captures, and life-and-death become clear
+    without the complexity of a full-sized board. Beginners can focus on reading short sequences and
+    understanding basic shapes before moving on to larger boards. This section is a good place to
+    include a simple example game or diagram later, showing how a small board develops from opening
+    moves to final scoring.
+  </p>
+  <div class="slideshow">
+    <div class="slide current-slide">
+      <img class="goban" src="/img/figure1.png" loading="lazy" alt="Diagram of a 9x9 go-board.">
+      <p>Black is aiming to control a big territory to the right. White is working on the left side.</p>
+    </div>
+    <div class="slide">
+      <img class="goban" src="/img/figure2.png" loading="lazy" alt="Diagram of a 9x9 go-board.">
+      <p>Black chooses to expand their own territory and reduce the white territory. White defends and black reinforces.</p>
+    </div>
+    <div class="slide">
+      <img class="goban" src="/img/figure3.png" loading="lazy" alt="Diagram of a 9x9 go-board.">
+      <p>White initiates this time and black needs to respond at 'A'.</p>
+    </div>
+    <div class="slide">
+      <img class="goban" src="/img/figure4.png" loading="lazy" alt="Diagram of a 9x9 go-board.">
+      <p>
+        16 to 19 are an important standard sequence to remember.  
+        20 to 23 are the same; if black had not defended, white would sneak into their territory.
+      </p>
+    </div>
+    <div class="slide">
+      <img class="goban" src="/img/figure5.png" loading="lazy" alt="Diagram of a 9x9 go-board.">
+      <p>
+        The borders are closed and both players choose to pass once they don't have any meaningful moves left.
+      </p>
+    </div>
+    <nav>
+      <button id="prev">&lt;</button>
+      <span id="slide-num"></span>
+      <button id="next">&gt;</button>
+    </nav>
+  </div>
+</section>
+<section id="test-yourself">
+  <h2 class="p-name">Test Yourself</h2>
+  <details>
+    <summary>
+      How many points of territory did white and black achieve respectively?
+      <img class="goban" src="/img/figure5.png" loading="lazy" alt="Diagram of a 9x9 go-board">
+    </summary>
+    <img class="goban" src="/img/figure6.png" loading="lazy" alt="Diagram of a 9x9 go-board">
+    White has 27 points of territory and black has 28.
+  </details>
+  <details>
+    <summary>
+      Where should white play to save their endangered stone?
+      <img class="goban" src="/img/question1.png" loading="lazy" alt="Diagram of a 5x5 go-board">
+    </summary>
+    To save the stone with one liberty left, white needs to play at point D.
+    The white stone went from one liberty to a stronger group of two with 3 liberties.
+  </details>
+  <details>
+    <summary>
+      Is white allowed to play at A?
+      <img class="goban" src="/img/question2.png" loading="lazy" alt="Diagram of a 5x5 go-board">
+    </summary>
+    Yes. White can play here because it captures black's 1st stone
+    and doesn’t violate the <a href="#rules">suicide rule</a>.
+  </details>
+  <details>
+    <summary>
+      Is black allowed to play at '1'?
+      <img class="goban" src="/img/question3.png" loading="lazy" alt="Diagram of a 5x5 go-board">
+    </summary>
+    No. Directly playing at point '1' is against the
+    <a href="#rules">ko rule</a> and black needs to play elsewhere
+    before they can capture the '8' stone back.
+  </details>
+  <details>
+    <summary>
+      Is black allowed to play at '1'?
+      <img class="goban" src="/img/question4.png" loading="lazy" alt="Diagram of a 5x5 go-board">
+    </summary>
+    Yes. Black can play at point '1' because they already played elsewhere at '9'.
+    This does not violate the <a href="#rules">ko rule</a>.
+  </details>
+</section>
+
+<script>
+  // slideshow
+document.addEventListener("DOMContentLoaded", () => {
+  const slideshows = document.querySelectorAll(".slideshow");
+
+  slideshows.forEach(slideshow => {
+    const slides = slideshow.querySelectorAll(".slide");
+    const prev = slideshow.querySelector("#prev");
+    const next = slideshow.querySelector("#next");
+    const slideNum = slideshow.querySelector("#slide-num");
+
+    let index = 0;
+
+    function showSlide(i) {
+      slides.forEach(s => s.classList.remove("current-slide"));
+      slides[i].classList.add("current-slide");
+      slideNum.textContent = `${i + 1}`;
+    }
+
+    prev.addEventListener("click", () => {
+      index = (index - 1 + slides.length) % slides.length;
+      showSlide(index);
+    });
+
+    next.addEventListener("click", () => {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    });
+
+    showSlide(index);
+    });
+  });
+</script>
+
+----- FILE: ..\site\src\weiqi\index.njk -----
+
+---
+title: Weiqi
+layout: layouts/category.njk
+tag: weiqi
+---
+
+----- FILE: ..\site\src\_includes\homepage.njk -----
+
+<section class="homepage-flex">
+  <div class="reading-width">
+    <h1>Welcome!</h1>
+    <p>
+      This is my personal site with stuff! I post about anything, but try to focus on guides about my current intrests. This
+      site is mostly for me to play around with coding but feel <br>free to look around! Also, I'm
+      <a class="u-url u-uid p-name p-author h-card" href="/about/">Jia-Rou</a>
+      - The Webmaster. And <br>I like to learn things!
+    </p>
+  </div>
+  <img class="u-photo" src="/img/snow_sheep.jpg" loading="lazy" alt="A sheep drawn in the snow" style="width: 300px; border-radius: 50%; border: solid var(--surface); margin: auto;">
+</section>
+<style>
+  .flex-feed .flex-card {
+    cursor: pointer;
+  }
+</style>
+<div class="h-feed flex-feed">
+  <article class="h-entry clickable flex-card" data-url="/art/">
+    <h2 class="p-name">
+      <a class="u-url u-uid" href="/art/">Art</a>
+    </h2>
+    <p class="p-summary">Novels, Photography and Music.</p>
+  </article>
+  <article class="h-entry clickable flex-card" data-url="/code/">
+    <h2 class="p-name">
+      <a class="u-url u-uid" href="/code/">Code</a>
+    </h2>
+    <p class="p-summary">Guides, Devlogs and Thoughts</p>
+  </article>
+</div>
+<a href="/weiqi/guide-pt1/">
+  <marquee class="subtle">Check Out Now! Weiqi Beginner's Guide</marquee>
+</a>
+<div class="h-feed flex-feed">
+  <article class="h-entry clickable flex-card" data-url="/weiqi/">
+    <h2 class="p-name">
+      <a class="u-url u-uid" href="/weiqi/">Weiqi</a>
+    </h2>
+    <p class="p-summary">Guides and Kifu</p>
+  </article>
+  <article class="h-entry clickable flex-card" data-url="/misc/">
+    <h2 class="p-name">
+      <a class="u-url u-uid" href="/misc/">Misc</a>
+    </h2>
+    <p class="p-summary">Things that can't fit into a category yet</p>
+  </article>
+</div>
+
+----- FILE: ..\site\src\_includes\components\card.njk -----
+
+{% set finalUrl = cardUrl == '/devlog' ? '/code/devlog' : cardUrl %}
+
+<article class="h-entry clickable" data-url="{{ finalUrl }}">
+
+  <header>
+    <h2 class="p-name">
+      <a class="u-url u-uid" href="{{ finalUrl }}">
+        {{ cardTitle }}
+      </a>
+    </h2>
+
+    <p class="main-meta">
+      {{ cardReadingTime }}
+    </p>
+
+    <p class="sub-meta">
+      <time class="dt-published" datetime="{{ cardDate | htmlDateString }}">
+        {{ cardDate | readableDate }}
+      </time>
+      
+      <span class="p-author h-card">
+        <a class="u-url p-name" href="/">Stille Jia-Rou</a>
+      </span>
+    </p>
+  </header>
+
+  {% if cardSummary %}
+    <p class="p-summary">{{ cardSummary }}</p>
+  {% endif %}
+
+</article>
+
+
+----- FILE: ..\site\src\_includes\layouts\article.njk -----
+
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <article class="h-entry">
+
+    <header class="reading-width">
+      <h1 class="p-name">{{ title }}</h1>
+
+      <p class="main-meta">
+        {% if updated %}
+          <span class="label">Updated:</span>
+          <time class="dt-updated" datetime="{{ updated }}">
+            {{ updated }}
+          </time>
+        {% else %}
+          <time class="dt-published" datetime="{{ page.date | htmlDateString }}"></time>
+        {% endif %}
+      </p>
+
+      <p class="sub-meta">
+        <time class="dt-published" datetime="{{ page.date | htmlDateString }}">
+          {{ page.date | readableDate }}
+        </time>
+        
+        <span class="p-author h-card">
+          <a class="p-name u-url" href="/">Stille Jia-Rou</a>
+        </span>
+
+        {% if tags %}
+          <p class="categories">
+            {% for tag in tags %}
+              <a class="p-category u-url" href="/{{ tag }}/">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+        {% endif %}
+      </p>
+    </header>
+
+    <div class="e-content reading-width">
+      {{ content | safe }}
+    </div>
+
+  </article>
+{% endblock %}
+
+
+----- FILE: ..\site\src\_includes\layouts\base.njk -----
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="RSS Feed">
+    <title>{{ title }} | Stille Jia-Rou</title>
+    <meta name="description" content="{{ description }}">
+    <link rel="canonical" href="https://stillejiarou.neocities.org/">
+    <meta name="author" content="Stille Jia-Rou">
+    <link rel="icon" href="/favicon.png">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="https://stillejiarou.neocities.org/">
+    <meta property="og:site_name" content="Stille Jia-Rou">
+    <meta property="og:image" content="/preview.png">
+    <link rel="me" href="https://github.com/stillejiarou">
+    <link rel="me" href="https://neocities.org/site/stillejiarou">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <div class="page">
+      <header class="site-header">
+        <div class="logo">
+          <a class="u-url u-uid p-name" href="/">
+            <span lang="sw">Stille</span>
+            <span lang="zh-hant">佳柔</span>
+          </a>
+        </div>
+        <nav class="h-nav">
+          <a class="u-url" href="/art/">Art</a>
+          <a class="u-url" href="/code/">Code</a>
+          <a class="u-url" href="/weiqi/">Weiqi</a>
+          <a class="u-url" href="/misc/">Misc</a>
+          <a class="u-url" href="/misc/about/">About</a>
+          <nav id="breadcrumbs"></nav>
+          <button id="theme-toggle">☾</button>
+        </nav>
+      </header>
+      <main class="e-content">
+        {% block content %}
+          {{ content | safe }}
+        {% endblock %}
+      </main>
+      <footer class="site-footer">
+        <p>©2026<span class="p-name">
+            Jia-Rou
+          </span>|</p>
+        <nav class="h-nav">
+          <a class="u-url" rel="me" href="https://github.com/stillejiarou">Github</a>
+          &bull;
+          <a class="u-url" rel="me" href="https://neocities.org/site/stillejiarou">Neocities</a>
+          &bull;
+          <a class="u-url" href="/feed.xml">RSS</a>
+        </nav>
+      </footer>
+    </div>
+    <script src="/script.js" defer></script>
+  </body>
+</html>
+
+----- FILE: ..\site\src\_includes\layouts\category.njk -----
+
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <h1 class="p-name">{{ title }}</h1>
+  <div class="h-feed">
+    {% set posts = collections[tag] %}
+    {{ content | safe }}
+    {% if posts %}
+      {% for post in posts | reverse %}
+        {% set cardTitle = post.data.title %}
+        {% set cardUrl = post.url %}
+        {% set cardSummary = post.data.summary %}
+        {% set cardReadingTime = post.templateContent | readingTime %}
+        {% set cardDate = post.date %}
+        {% include "components/card.njk" %}
+      {% endfor %}
+    {% else %}
+      <p>No posts yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

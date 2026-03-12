@@ -1,10 +1,8 @@
 {% extends "layouts/base.njk" %}
-
 {% block content %}
   <h1 class="p-name">{{ title }}</h1>
   <div class="h-feed">
     {% set posts = collections[tag] %}
-    {{ content | safe }}
     {% if posts %}
       {% for post in posts | reverse %}
         {% set cardTitle = post.data.title %}
@@ -17,5 +15,6 @@
     {% else %}
       <p>No posts yet.</p>
     {% endif %}
+    {{ content | safe }}
   </div>
 {% endblock %}
