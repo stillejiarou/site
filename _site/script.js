@@ -56,5 +56,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// DARKMODE
+
+const root = document.documentElement;
+const toggle = document.getElementById("theme-toggle");
+
+const saved = localStorage.getItem("theme");
+if (saved === "dark") {
+  root.classList.add("dark");
+  toggle.textContent = "☀︎";
+}
+
+toggle.addEventListener("click", () => {
+  const dark = root.classList.toggle("dark");
+  toggle.textContent = dark ? "☀︎" : "☾";
+  localStorage.setItem("theme", dark ? "dark" : "light");
+});
+
 // DEBUG
 console.log("It works!");

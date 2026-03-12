@@ -28,6 +28,17 @@
   --border-radius: 3px;
 }
 
+/* dark mode */
+.dark {
+  --text-color: #e6e6fa;
+  --accent: #87cefa;
+  --background: #0b0c10;
+  --surface: #1f2833;
+
+  --border: 1px solid var(--text-color);
+  --box-shadow: 3px 3px 3px var(--accent), -3px -3px 3px var(--accent);
+}
+
 /* global */
 
 * {
@@ -97,6 +108,23 @@ main {
 
 .site-footer {
   justify-content: center;
+}
+
+/* header individual items */
+
+.h-nav {
+  align-items: center;
+}
+
+#theme-toggle {
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+#theme-toggle:hover {
+  text-shadow: var(--box-shadow);
 }
 
 /* blocks */
