@@ -7,7 +7,6 @@
     {{ content | safe }}
     {% if posts %}
       {% for post in posts | reverse %}
-        {# Set variables for the card include #}
         {% set cardTitle = post.data.title %}
         {% set cardUrl = post.url %}
         {% set cardSummary = post.data.summary %}

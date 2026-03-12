@@ -1,18 +1,18 @@
-<article class="h-entry clickable" data-url="{{ cardUrl }}">
+{% set finalUrl = cardUrl == '/devlog' ? '/code/devlog' : cardUrl %}
+
+<article class="h-entry clickable" data-url="{{ finalUrl }}">
 
   <header>
     <h2 class="p-name">
-      <a class="u-url u-uid" href="{{ cardUrl }}">
+      <a class="u-url u-uid" href="{{ finalUrl }}">
         {{ cardTitle }}
       </a>
     </h2>
 
-    {# MAIN META — what the reader cares about #}
     <p class="main-meta">
       {{ cardReadingTime }}
     </p>
 
-    {# SUB META — microformats-required but secondary #}
     <p class="sub-meta">
       <time class="dt-published" datetime="{{ cardDate | htmlDateString }}">
         {{ cardDate | readableDate }}
@@ -24,7 +24,6 @@
     </p>
   </header>
 
-  {# MAIN CONTENT FOR CARD = SUMMARY #}
   {% if cardSummary %}
     <p class="p-summary">{{ cardSummary }}</p>
   {% endif %}

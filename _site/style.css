@@ -210,6 +210,12 @@ button:hover {
   cursor: default;
 }
 
+/* homepage */
+
+.homepage-flex {
+  display: flex;
+}
+
 /* weiqi */
 
 .goban {
@@ -252,6 +258,10 @@ button:hover {
   .site-header {
     padding: var(--md);
   }
+
+  .homepage-flex {
+    flex-direction: row;
+  }
 }
 
 /* ----------------------------------------------- */
@@ -274,5 +284,13 @@ button:hover {
 
   .site-header a {
     font-size: 0.9rem;
+  }
+
+  .flex-card {
+    min-width: 100%;
+  }
+
+  .homepage-flex {
+    flex-direction: column;
   }
 }
