@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Stille Jia-Rou</title>
+    <link>https://stillejiarou.neocities.org/</link>
+    <description>Guides on Weiqi, coding notes, art, and devlogs.</description>
+    
+      <item>
+        <title>About</title>
+        <link>https://stillejiarou.neocities.org/misc/about/</link>
+        <pubDate>Wed, 11 Mar 2026 20:34:53 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Playground</title>
+        <link>https://stillejiarou.neocities.org/misc/</link>
+        <pubDate>Wed, 11 Mar 2026 19:02:16 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Homepage</title>
+        <link>https://stillejiarou.neocities.org/</link>
+        <pubDate>Tue, 10 Mar 2026 19:27:12 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Homepage is a mess</title>
+        <link>https://stillejiarou.neocities.org/code/devlog/20260311/</link>
+        <pubDate>Tue, 10 Mar 2026 01:00:00 GMT</pubDate>
+        <description>Things are going oddly smoothly...</description>
+      </item>
+    
+      <item>
+        <title>11ty</title>
+        <link>https://stillejiarou.neocities.org/code/devlog/20260310/</link>
+        <pubDate>Tue, 10 Mar 2026 01:00:00 GMT</pubDate>
+        <description>Migrating is actually going well?</description>
+      </item>
+    
+      <item>
+        <title>Weiqi Beginner&#39;s Guide</title>
+        <link>https://stillejiarou.neocities.org/weiqi/guide-pt1/</link>
+        <pubDate>Mon, 09 Mar 2026 01:00:00 GMT</pubDate>
+        <description>An introduction to Weiqi explaining where beginners start.</description>
+      </item>
+    
+      <item>
+        <title>Trying Node.js</title>
+        <link>https://stillejiarou.neocities.org/code/devlog/20260309/</link>
+        <pubDate>Mon, 09 Mar 2026 01:00:00 GMT</pubDate>
+        <description>Do I restart again? I really wanna automate RSS...</description>
+      </item>
+    
+      <item>
+        <title>Weiqi</title>
+        <link>https://stillejiarou.neocities.org/weiqi/</link>
+        <pubDate>Sun, 08 Mar 2026 15:55:30 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Devlog</title>
+        <link>https://stillejiarou.neocities.org/code/devlog/</link>
+        <pubDate>Sun, 08 Mar 2026 15:55:25 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Code</title>
+        <link>https://stillejiarou.neocities.org/code/</link>
+        <pubDate>Sun, 08 Mar 2026 15:55:21 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Art</title>
+        <link>https://stillejiarou.neocities.org/art/</link>
+        <pubDate>Sun, 08 Mar 2026 15:55:17 GMT</pubDate>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>Day 1, Again</title>
+        <link>https://stillejiarou.neocities.org/code/devlog/20260308/</link>
+        <pubDate>Sun, 08 Mar 2026 01:00:00 GMT</pubDate>
+        <description>I am once again redoing my whole site...</description>
+      </item>
+    
+      <item>
+        <title>Untitled Novel</title>
+        <link>https://stillejiarou.neocities.org/art/untitled-novel/</link>
+        <pubDate>Sun, 08 Mar 2026 01:00:00 GMT</pubDate>
+        <description>Something was amiss but I did as Master had taught us...</description>
+      </item>
+    
+  </channel>
+</rss>

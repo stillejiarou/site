@@ -1,0 +1,22 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <h1 class="p-name">{{ title }}</h1>
+  <div class="h-feed">
+    {% set posts = collections[tag] %}
+    {{ content | safe }}
+    {% if posts %}
+      {% for post in posts | reverse %}
+        {# Set variables for the card include #}
+        {% set cardTitle = post.data.title %}
+        {% set cardUrl = post.url %}
+        {% set cardSummary = post.data.summary %}
+        {% set cardReadingTime = post.templateContent | readingTime %}
+        {% set cardDate = post.date %}
+        {% include "components/card.njk" %}
+      {% endfor %}
+    {% else %}
+      <p>No posts yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

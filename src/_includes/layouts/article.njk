@@ -1,0 +1,44 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <article class="h-entry">
+
+    <header class="reading-width">
+      <h1 class="p-name">{{ title }}</h1>
+
+      <p class="main-meta">
+        {% if updated %}
+          <span class="label">Updated:</span>
+          <time class="dt-updated" datetime="{{ updated }}">
+            {{ updated }}
+          </time>
+        {% else %}
+          <time class="dt-published" datetime="{{ page.date | htmlDateString }}"></time>
+        {% endif %}
+      </p>
+
+      <p class="sub-meta">
+        <time class="dt-published" datetime="{{ page.date | htmlDateString }}">
+          {{ page.date | readableDate }}
+        </time>
+        
+        <span class="p-author h-card">
+          <a class="p-name u-url" href="/">Stille Jia-Rou</a>
+        </span>
+
+        {% if tags %}
+          <p class="categories">
+            {% for tag in tags %}
+              <a class="p-category u-url" href="/{{ tag }}/">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+        {% endif %}
+      </p>
+    </header>
+
+    <div class="e-content reading-width">
+      {{ content | safe }}
+    </div>
+
+  </article>
+{% endblock %}
