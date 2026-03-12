@@ -6,5 +6,73 @@ layout: layouts/base.njk
 
 <h2>Site Playground</h2>
 <p>This is the chaotic part of the Site... Well, the INTENTIONALL chaotic part at least.</p>
-
-<h3>Comming Soon!</h3>
+<div class="h-feed flex-feed">
+  <section class="h-entry flex-card">
+    <h2>Webgarden</h2>
+    <iframe style="height: 250px; width: 250px;" src="/webgarden/">loading webgarden...</iframe>
+    <div>
+      <input
+        type="text"
+        value="&lt;iframe style=&#34;height: 250px; width: 250px;&#34;
+          src=&#34;/https://stillejiarou.neocities.org/webgarden/&#34;&gt;loading webgarden...&lt;/iframe&gt;"
+        id="webgardenButton"
+        style="width: fit-content;">
+      <button onclick="myFunction()">Copy</button>
+      <script>
+        function myFunction() {
+          var copyText = document.getElementById("webgardenButton");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          navigator.clipboard.writeText(copyText.value);
+          alert("Copied the text: " + copyText.value);
+        }
+      </script>
+    </div>
+  </section>
+  <div>
+    <section class="h-entry" style="height: fit-content;">
+      <h2>88x31 Button</h2>
+      <div style="display: flex; align-items: center;">
+        <img src="/img/my-button.gif" loading="lazy" style="width: 88px; height: 31px;">
+        <input
+          type="text"
+          value="&lt;a href=&#34;https://stillejiarou.neocities.org/&#34;&gt;&lt;&lt;img src=&#34;/https://stillejiarou.neocities.org/img/my-button.gif&#34; loading=&#34;lazy&#34;
+            style=&#34;width: 88px; height: 31px;&#34;&gt;&lt;/a&gt;"
+          id="buttonButton"
+          style="width: fit-content;">
+        <button onclick="myFunction()">Copy</button>
+        <script>
+          function myFunction() {
+            var copyText = document.getElementById("buttonButton");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("Copied the text: " + copyText.value);
+          }
+        </script>
+      </div>
+    </section>
+    <section class="h-entry" style="height: fit-content;">
+      <h2>Web Stamp</h2>
+      <div style="display: flex; align-items: center;">
+        <img src="/img/my-stamp.png" loading="lazy" style="width: 99px; height: 56px;" alt="coming soon">
+        <input
+          type="text"
+          value="&lt;a href=&#34;https://stillejiarou.neocities.org/&#34;&gt;&lt;img src=&#34;/https://stillejiarou.neocities.org/img/my-stamp.png&#34; loading=&#34;lazy&#34;
+            style=&#34;width: 88px; height: 31px;&#34;&gt;&lt;/a&gt; "
+          id="stampButton"
+          style="width: fit-content;">
+        <button onclick="myFunction()">Copy</button>
+        <script>
+          function myFunction() {
+            var copyText = document.getElementById("stampButton");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("Copied the text: " + copyText.value);
+          }
+        </script>
+      </div>
+    </section>
+  </div>
+</div>

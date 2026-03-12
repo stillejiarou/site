@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,caption{
+margin:0;
+padding:0;
+border:0;
+outline:0;
+font-size:100%;
+vertical-align:baseline;
+background:transparent;
+}
+
+.plant{
+width:250px;
+height:250px;
+overflow: hidden;
+}
+
+.top,.bottom{
+height:25px;
+}
+
+.top{
+background-color:lightskyblue;
+}
+
+.bottom{
+background-color:palegreen;
+}
+
+.garden-main{
+height:200px;
+margin-top:-4px;
+position:relative;
+
+/* START AS SKY ONLY */
+background:lightskyblue;
+
+}
+
+.plant-item{
+position:absolute;
+bottom:-10px;
+left:50%;
+transform:translateX(-50%);
+transform-origin:bottom center;
+cursor:pointer;
+font-size:5px;
+line-height:1;
+transition:transform 0.5s;
+color:green;
+font-weight:900;
+user-select:none;
+white-space:pre;
+font-family:monospace;
+}
+
+#flower{
+color:maroon;
+}
+
+.blooming::before{
+content:"^^^^^";
+white-space:pre;
+position:absolute;
+top:38px;
+left:8px;
+}
+
+.blooming::after{
+content:"\\\\\\vvv///";
+color:red;
+white-space:pre;
+position:absolute;
+top:33px;
+left:2px;
+}
+
+.grown-content{
+position:absolute;
+top:0;
+left:0;
+height:100%;
+width:100%;
+padding:5px;
+font-size:10px;
+pointer-events:none;
+}
+
+.cloud{
+font-size:5rem;
+color:#f0f8ff;
+line-height:1;
+}
+
+#bloomMessage{
+display:none;
+z-index: 2;
+font-weight: 700;
+font-size: 1.5rem;
+position: absolute;
+top: -50px;
+padding-left: 3rem;
+height: 250px;
+width: 100%;
+background: linear-gradient(to right, transparent, transparent, transparent, transparent, lightskyblue, lightskyblue, lightskyblue, lightskyblue, transparent, transparent, transparent, transparent);
+}
+
+#bloomMessage a{
+    color: deeppink;
+    text-shadow: 1px 1px 10px aliceblue, -1px -1px 10px aliceblue;
+    z-index: 100;
+    white-space: pre;
+    text-decoration:none;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://stillejiarou.neocities.org/style.css">
+</head>
+ 
+<body>
+
+<div class="plant">
+
+<marquee class="top">Welcome to the Web Garden of Stille Jia-Rou</marquee>
+
+<div class="garden-main">
+ 
+<!-- SKY + CLOUDS (VISIBLE FROM START) -->
+
+<div id="bloomMessage">
+
+<a style="text-decoration: none;" href="https://stillejiarou.neocities.org/" target="_blank">
+<p>
+    .-.'  '.-.
+ .-(   \  /   )-.
+/   '..    ..'   \
+\.--. ^^^^^^ .--./
+/   :OMG HE'S:   \
+\   :BLOOMING:   /
+/'--' vvvvvv '--'\
+\   .''    ''.   /
+  (    /  \    )-'
+    '-'.__.'-;<span style="color: green">
+        ||
+        ||
+        ||
+        ||
+        ||
+        ||</span>
+</p>
+</a>
+
+</div>
+
+<marquee class="cloud" direction="right">☁</marquee>
+<marquee class="cloud">☁</marquee>
+
+<!-- PLANT -->
+
+<p class="plant-item">
+
+<span id="flower">
+      ,
+  /\^/A\
+ |\\//##|
+ |#|####|
+ \\\####/
+  '\\//'</span>
+    ||
+    ||
+    ||
+    ||  ,
+|\  ||  |\
+| | ||  | |
+| | || / /
+ \ \||/ /
+  `\\//`
+    ^^
+
+</p>
+
+</div>
+
+
+<marquee class="bottom" direction="right">Welcome to the Web Garden of Stille Jia-Rou</marquee>
+
+</div>
+
+
+<script>
+
+const plant = document.querySelector('.plant-item');
+const flower = document.querySelector('#flower');
+const garden = document.querySelector('.garden-main');
+const bloomMessage = document.querySelector('#bloomMessage');
+
+let size = 1;
+
+plant.addEventListener('click', () => {
+
+if(size < 2.5) size += 0.2;
+
+plant.style.transform = `translateX(-50%) scale(${size})`;
+
+if(size >= 2){
+flower.style.color = "deeppink";
+}
+else if(size >= 1){
+flower.style.color = "crimson";
+}
+else{
+flower.style.color = "maroon";
+}
+
+if(size >= 2.5){
+
+flower.classList.add("blooming");
+
+/* TURN SKY INTO SKY+GRASS */
+
+/* SHOW MESSAGE */
+bloomMessage.style.display = "block";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

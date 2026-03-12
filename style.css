@@ -188,14 +188,14 @@ iframe {
 
 /* input */
 
-button {
+button, input[type="text"] {
   padding: var(--sm) var(--md);
   margin: var(--sm);
   background-color: var(--accent);
   border: var(--border);
 }
 
-button:hover {
+button:hover, input[type="text"] {
   background-color: var(--surface);
 }
 
