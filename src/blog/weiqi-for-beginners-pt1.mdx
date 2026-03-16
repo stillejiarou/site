@@ -1,0 +1,165 @@
+---
+title: "Weiqi Beginners Guide"
+description: "Weiqi, also known as Go or Baduk, is one of the world's oldest strategy games, yet its appeal has never faded. Read more for all information needed to get you started!"
+tags:
+  - weiqi
+  - guides
+pubDate: 2026-03-16
+author: ""
+image:
+  url: ""
+  alt: ""
+---
+import Slideshow from "../components/Slideshow.jsx";
+import "../styles/weiqi.css";
+
+## Introduction
+Weiqi, also known as Go or Baduk, is one of the world's oldest strategy games, yet its appeal has never
+faded. The rules are simple enough to learn in minutes, but the game's depth keeps players engaged for a
+lifetime. Many people are drawn to Weiqi because it rewards patience, creativity, and long-term thinking
+rather than memorization or quick reflexes. It offers a quiet, thoughtful kind of competition where each
+move shapes the entire board, and every game becomes its own story.
+
+<img src="/img/weiqi-intro.png" alt="A Goban with simple Joseki" />
+
+## Board and Stones
+Weiqi is played on a grid of intersecting lines, most commonly the full 19x19 board, though beginners
+often start on smaller 9x9 or 13x13 boards to learn the fundamentals. Black and white stones are placed on
+the intersections rather than inside squares, and once a stone is placed, it stays on the board unless it
+is captured. Stones that touch along the lines form groups and share liberties, the empty points that keep
+them alive. This simple setup creates a surprising amount of strategic possibility, as every stone
+influences the shape of the board.
+
+## Gameplay
+Players alternate placing one stone at a time, with Black moving first. After each move, any stones that
+no longer have liberties are removed from the board, creating a natural rhythm of expansion, conflict, and
+resolution. The early game tends to be open and exploratory, with players staking out broad areas. As the
+board fills, the focus shifts to tactical fights, life-and-death struggles, and finally the precise
+endgame where every point matters. A player may pass when no profitable move remains, and when both
+players pass in succession, the game ends.
+
+## Examples
+A 9x9 board is an excellent way to learn because it keeps the game compact and easy to follow.
+Battles resolve quickly, and concepts like liberties, captures, and life-and-death become clear
+without the complexity of a full-sized board. Beginners can focus on reading short sequences and
+understanding basic shapes before moving on to larger boards. This section is a good place to
+include a simple example game or diagram later, showing how a small board develops from opening
+moves to final scoring.
+
+<Slideshow
+  client:load
+  slides={[
+    {
+      src: "/img/figure1.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "Black is aiming to control a big territory to the right. White is working on the left side."
+    },
+    {
+      src: "/img/figure2.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "Black chooses to expand their own territory and reduce the white territory. White defends and black reinforces."
+    },
+    {
+      src: "/img/figure3.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "White initiates this time and black needs to respond at 'A'."
+    },
+    {
+      src: "/img/figure4.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "16 to 19 are an important standard sequence to remember..."
+    },
+    {
+      src: "/img/figure5.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "The borders are closed and both players choose to pass..."
+    }
+  ]}
+/>
+
+## Goal
+The aim of Weiqi is to control more territory than your opponent. Territory consists of empty points
+surrounded by your stones, and captured stones also contribute to your score. Throughout the game, players
+balance the desire to secure solid territory with the need to build influence and maintain efficient
+shapes. Good play often involves choosing moves that serve multiple purposes at once, strengthening your
+own position while limiting your opponent's options. When the board is settled, the player with the
+greater total of territory and captures wins.
+
+## Life and Death
+A central idea in Weiqi is whether a group of stones is alive or dead. A living group is one that cannot
+be captured, usually because it contains two separate internal liberties known as eyes. A dead group, even
+if still on the board, is one that can be captured with correct play. Some shapes resemble eyes but can be
+filled by the opponent; these are false eyes, and recognizing them is an important skill. Studying
+life-and-death problems, known as tsumego, helps players learn to read ahead and understand which groups
+can survive and which cannot.
+
+## Rules
+Although the rules of Weiqi are straightforward, a few details are essential. The ko rule prevents a
+player from recreating the exact same board position immediately, stopping infinite loops and forcing
+players to fight ko battles with threats elsewhere on the board. Suicide is not allowed unless placing a
+stone would immediately capture opposing stones and restore liberties to the group. When both players
+pass, the game ends and the board is scored. Different rule sets vary slightly in how they count points,
+but the flow of the game remains the same across all traditions.
+
+## Test Yourself
+Click the "> next arrow" to reveal the answer and progress the quiz!
+
+<Slideshow
+  client:load
+  slides={[
+    {
+      src: "/img/figure5.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "How many points of territory did white and black achieve respectively?"
+    },
+    {
+      src: "/img/figure6.png",
+      alt: "Diagram of a 9x9 go-board.",
+      text: "White has 27 points of territory and black has 28."
+    },
+
+    {
+      src: "/img/question1.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "Where should white play to save their endangered stone?"
+    },
+    {
+      src: "/img/question1.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "White must play at point D to save the stone and create a group with 3 liberties."
+    },
+
+    {
+      src: "/img/question2.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "Is white allowed to play at A?"
+    },
+    {
+      src: "/img/question2.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "Yes. White captures black’s stone and does not violate the suicide rule."
+    },
+
+    {
+      src: "/img/question3.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "Is black allowed to play at '1'?"
+    },
+    {
+      src: "/img/question3.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "No. Playing at '1' violates the ko rule unless black first plays elsewhere."
+    },
+
+    {
+      src: "/img/question4.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "Is black allowed to play at '1'?"
+    },
+    {
+      src: "/img/question4.png",
+      alt: "Diagram of a 5x5 go-board.",
+      text: "Yes. Black already played elsewhere at '9', so this does not violate the ko rule."
+    }
+  ]}
+/>

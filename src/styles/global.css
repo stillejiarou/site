@@ -96,6 +96,14 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--bold);
 }
 
+h1 { 
+  background-color: var(--surface); 
+  padding: var(--xs) var(--md);
+  margin: var(--md) 0;
+}
+
+.e-content h2 { margin-top: var(--font-size); }
+
 a { color: var(--text-color); }
 a:hover { color: var(--highlight) }
 
@@ -133,6 +141,11 @@ Footer {
 }
 
 Footer a { color: var(--muted); }
+
+/* CURSOR */
+
+body { cursor: default; }
+a, .h-feed .h-entry, button, summary { cursor: pointer; }
 
 /* CLASSES */
 
@@ -186,9 +199,20 @@ Footer a { color: var(--muted); }
   .flex-card { min-width: 100%; }
 }
 
+/* VISUALS */
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.marquee { opacity: var(--subtle-opacity); }
+
 /* UTILLITY */
 
 .subtle { opacity: var(--subtle-opacity); }
+
+.reverse { flex-direction: column-reverse; }
 
 /* EXTRA */
 

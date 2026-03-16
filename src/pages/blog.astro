@@ -7,7 +7,7 @@ const allPosts = await getCollection("blog");
 ---
 
 <Base pageTitle="Articles" pageDescription="All my blog posts in one place.">
-  <div class="h-feed">
+  <div class="h-feed reverse">
     {
       allPosts.map((post) => (
         <Post 

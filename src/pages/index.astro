@@ -1,7 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
-import Greeting from "../components/Greeting";
+import { Image } from "astro:assets";
 import Clickable from "../components/Clickable.astro";
+import Marquee from "../components/Marquee.astro";
 
 const pageTitle = "Welcome!";
 ---
@@ -18,13 +19,14 @@ const pageTitle = "Welcome!";
           - The Webmaster. And I like to learn things!
         </p>
       </div>
-
-      <img
+      <Image
         class="u-photo"
         src="/img/profile-picture.jpg"
-        loading="lazy"
+        width={200}
+        height={200}
         alt="A sheep drawn in the snow"
-        style="width: 200px; border-radius: 50%; border: solid var(--surface); align-self: center; margin-bottom: var(--xl)"
+        loading="eager"
+        style="border-radius: 50%; border: solid var(--surface); align-self: center; margin-bottom: var(--xl)"
       />
     </section>
 
@@ -70,10 +72,10 @@ const pageTitle = "Welcome!";
       </div>
     </div>
 
-    <a href="/posts/guide-pt1/"
-      ><marquee class="subtle"
-        >Check Out Now! Weiqi For Complete Beginners</marquee
-      ></a
-    >
+    <Marquee
+      text="Check Out Now! Weiqi For Complete Beginners"
+      href="/posts/weiqi-for-beginners-pt1/"
+    />
+
   </main>
 </Base>
