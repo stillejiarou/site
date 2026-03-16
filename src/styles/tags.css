@@ -1,0 +1,9 @@
+.tags {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  white-space: nowrap;
+}

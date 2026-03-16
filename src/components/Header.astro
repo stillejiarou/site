@@ -1,0 +1,30 @@
+---
+import Navigation from "../components/Navigation.astro";
+---
+
+<header>
+  <a class="h-card p-name p-author logo" href="/">
+    <span lang="sv">Stille</span>
+    <span lang="zh-hant">佳柔</span>
+  </a>
+
+  <Navigation />
+</header>
+
+<style>
+  .logo {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 700;
+  }
+
+  span[lang="sv"] {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+  }
+
+  span[lang="zh-hant"] { font-size: 1.5rem; }
+</style>

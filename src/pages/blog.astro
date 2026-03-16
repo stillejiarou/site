@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Post from "../components/Post.astro";
+
+const allPosts = await getCollection("blog");
+---
+
+<Base pageTitle="Articles" pageDescription="All my blog posts in one place.">
+  <div class="h-feed">
+    {
+      allPosts.map((post) => (
+        <Post 
+          url={`/posts/${post.id}/`} 
+          title={post.data.title} 
+          pubDate={post.data.pubDate} 
+          description={post.data.description} 
+        />
+      ))
+    }
+  </div>
+</Base>

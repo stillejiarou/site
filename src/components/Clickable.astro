@@ -1,0 +1,26 @@
+---
+const { url, title, description } = Astro.props;
+---
+
+<div class="h-entry clickable" data-url={url}>
+  <h2>{title}</h2>
+  <p>{description}</p>
+</div>
+
+<script defer>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".clickable").forEach((article) => {
+      article.addEventListener("click", (e) => {
+        if (e.target.tagName.toLowerCase() !== "a") {
+          window.location.href = article.dataset.url;
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .clickable {
+    cursor: pointer;
+  }
+</style>

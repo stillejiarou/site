@@ -1,0 +1,33 @@
+<button id="theme-toggle">☾</button>
+<script defer>
+  const root = document.documentElement;
+  const toggle = document.getElementById("theme-toggle");
+
+  const saved = localStorage.getItem("theme");
+  if (saved === "dark") {
+    root.classList.add("dark");
+    toggle.textContent = "☀︎";
+  }
+
+  toggle.addEventListener("click", () => {
+    const dark = root.classList.toggle("dark");
+    toggle.textContent = dark ? "☀︎" : "☾";
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  });
+</script>
+
+<style>
+  #theme-toggle {
+    border: none;
+    background-color: transparent;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    padding: 0 var(--sm);
+  }
+  #theme-toggle:hover {
+    color: var(--highlight);
+  }
+  html:not(.theme-loaded) * {
+    transition: none !important;
+  }
+</style>

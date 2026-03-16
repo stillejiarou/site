@@ -1,0 +1,27 @@
+---
+import Base from "./Base.astro";
+const { frontmatter } = Astro.props;
+---
+
+<Base pageTitle={frontmatter.title}>
+  <article class="h-entry">
+    <p class="sublte">
+      <span class="p-author">{frontmatter.author || "Jia-Rou Stille"}</span>
+      <time class="dt-published" datetime={frontmatter.pubDate}>{frontmatter.pubDate.toString().slice(0, 10)}</time>
+    </p>
+    <p class="p-summary">{frontmatter.description}</p>
+    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+
+    <div class="tags">
+      {
+        frontmatter.tags.map((tag: string) => (
+          <a class="tag u-url u-uid h-category" href={`/tags/${tag}`}>#{tag}</a>
+        ))
+      }
+    </div>
+
+    <main class="e-content">
+      <slot />
+    </main>
+  </article>
+</Base>

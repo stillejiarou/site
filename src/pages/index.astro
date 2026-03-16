@@ -1,0 +1,79 @@
+---
+import Base from "../layouts/Base.astro";
+import Greeting from "../components/Greeting";
+import Clickable from "../components/Clickable.astro";
+
+const pageTitle = "Welcome!";
+---
+
+<Base pageTitle={pageTitle} pageDescription="The homepage of Jia-Rou Stille!">
+  <main class="e-content">
+    <section class="homepage-flex">
+      <div style="padding: var(--xl) var(--xl) 0 var(--lg)">
+        <p>
+          This is my personal site with stuff! I post about anything, but try to
+          focus on guides about my current intrests. This site is mostly for me
+          to play around with coding but feel free to look around! Also, I'm
+          <a class="u-url u-uid p-name h-card" href="/about/">Jia-Rou</a>
+          - The Webmaster. And I like to learn things!
+        </p>
+      </div>
+
+      <img
+        class="u-photo"
+        src="/img/profile-picture.jpg"
+        loading="lazy"
+        alt="A sheep drawn in the snow"
+        style="width: 200px; border-radius: 50%; border: solid var(--surface); align-self: center; margin-bottom: var(--xl)"
+      />
+    </section>
+
+    <div class="h-feed flex-feed">
+      <div class="flex-card h-entry">
+        <Clickable
+          url="/tags/art/"
+          title="Art"
+          description="Novels, Photography and Music"
+        />
+      </div>
+
+      <div class="flex-card h-entry">
+        <Clickable
+          url="/tags/guides/"
+          title="Guides"
+          description="Teaching about things I like, and leanring together"
+        />
+      </div>
+
+      <div class="flex-card h-entry">
+        <Clickable
+          url="/tags/code/"
+          title="Code"
+          description="Coding and Devlogs"
+        />
+      </div>
+
+      <div class="flex-card h-entry">
+        <Clickable
+          url="/tags/weiqi/"
+          title="Weiqi"
+          description="Learnings and Kifu"
+        />
+      </div>
+
+      <div class="flex-card h-entry">
+        <Clickable
+          url="/tags/diary/"
+          title="Diary"
+          description="Thoughts and Feelings"
+        />
+      </div>
+    </div>
+
+    <a href="/posts/guide-pt1/"
+      ><marquee class="subtle"
+        >Check Out Now! Weiqi For Complete Beginners</marquee
+      ></a
+    >
+  </main>
+</Base>
